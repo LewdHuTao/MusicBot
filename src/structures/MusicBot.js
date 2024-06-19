@@ -14,11 +14,13 @@ class MusicBot extends Client {
       intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates,
       ],
     });
     this.config = require("../config");
     this.settings = this.config.botSettings;
+    this.embedColor = this.config.botSettings.embedColor;
     this.SlashCommands = new Collection();
     this.PrefixCommands = new Collection(); 
     this.ContextCommands = new Collection(); 
@@ -38,6 +40,12 @@ class MusicBot extends Client {
       const event = require(`../events/client/${file}`);
       let eventName = file.split(".")[0];
       this.on(event.name, (...args) => event.run(this, ...args));
+    });
+
+    readdirSync("./events/node/").forEach((file) => {
+      const event = require(`../events/node/${file}`);
+      let eventName = file.split(".")[0];
+      this.manager.on(eventName, event.bind(null, this));
     });
 
     // Load slash commands
