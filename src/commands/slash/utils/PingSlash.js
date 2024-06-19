@@ -1,5 +1,5 @@
 const SlashCommand = require("../../../structures/SlashCommand");
-const ms = require("ms");
+const { EmbedBuilder } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("ping")
@@ -8,11 +8,55 @@ const command = new SlashCommand()
   .setRun(async (client, interaction, options) => {
     await interaction.deferReply({ ephemeral: true });
 
-    const uptime = `${ms(client.uptime, { long: true })}`;
-    const ping = new Date().getTime() - interaction.createdTimestamp;
+    let zap = "⚡";
+    let green = "🟢";
+    let red = "🔴";
+    let yellow = "🟡";
 
-    interaction.editReply({
-      content: `Pong 🏓 | **${client.ws.ping}ms**, ws **${ping}ms**, online for **${uptime}**`,
+    var botState = zap;
+    var apiState = zap;
+
+    let apiPing = client.ws.ping;
+    let botPing = Math.floor(
+      new Date().getTime() - interaction.createdTimestamp
+    );
+
+    if (apiPing >= 40 && apiPing < 200) {
+      apiState = green;
+    } else if (apiPing >= 200 && apiPing < 400) {
+      apiState = yellow;
+    } else if (apiPing >= 400) {
+      apiState = red;
+    }
+
+    if (botPing >= 40 && botPing < 200) {
+      botState = green;
+    } else if (botPing >= 200 && botPing < 400) {
+      botState = yellow;
+    } else if (botPing >= 400) {
+      botState = red;
+    }
+
+    return interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setTitle("🏓 | Pong!")
+          .addFields([
+            {
+              name: "API Latency",
+              value: `\`\`\`yml\n${apiState} | ${apiPing}ms\`\`\``,
+            },
+            {
+              name: "Bot Latency",
+              value: `\`\`\`yml\n${botState} | ${botPing}ms\`\`\``,
+            },
+          ])
+          .setColor(client.embedColor)
+          .setFooter({
+            text: `Requested by ${interaction.user.username}`,
+            iconURL: interaction.user.avatarURL(),
+          }),
+      ],
     });
   });
 
