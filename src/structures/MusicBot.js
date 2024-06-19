@@ -14,6 +14,7 @@ class MusicBot extends Client {
       intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMembers,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates,
       ],
@@ -42,8 +43,16 @@ class MusicBot extends Client {
       this.on(event.name, (...args) => event.run(this, ...args));
     });
 
+    // Load node events
     readdirSync("./events/node/").forEach((file) => {
       const event = require(`../events/node/${file}`);
+      let eventName = file.split(".")[0];
+      this.manager.on(eventName, event.bind(null, this));
+    });
+
+    // Load audio event
+    readdirSync("./events/audio/").forEach((file) => {
+      const event = require(`../events/audio/${file}`);
       let eventName = file.split(".")[0];
       this.manager.on(eventName, event.bind(null, this));
     });
