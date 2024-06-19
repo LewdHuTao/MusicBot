@@ -1,23 +1,22 @@
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    name: "ping",
-    category: "Util",
-    description: "Check the bot Latency.",
-    args: false,
-    usage: "",
-    permission: [],
-    aliases: ["ping", "pong", "latency"],
+  name: "ping",
+  category: "Util",
+  description: "Check the bot Latency.",
+  args: false,
+  usage: "",
+  permission: [],
+  aliases: ["ping", "pong", "latency"],
 
-    run: async (message, args, client, prefix) => {
-
-        let msg = await message.channel.send({
-            embeds: [
-              new EmbedBuilder()
-                .setDescription("🏓 | Fetching ping...")
-                //.setColor("#6F8FAF"),
-            ],
-          });
+  run: async (message, args, client, prefix) => {
+    let msg = await message.reply({
+      embeds: [
+        new EmbedBuilder()
+          .setDescription("🏓 | Fetching ping...")
+          .setColor(client.embedColor),
+      ],
+    });
 
     let zap = "⚡";
     let green = "🟢";
@@ -51,25 +50,22 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
           .setTitle("🏓 | Pong!")
-          .addFields(
-            [
-                {
-                    name: "API Latency",
-                    value: `\`\`\`yml\n${apiState} | ${apiPing}ms\`\`\``,
-                },
-                {
-                    name: "Bot Latency",
-                    value: `\`\`\`yml\n${botState} | ${botPing}ms\`\`\``,
-                },
-        
-            ]
-          )
-          //.setColor(client.config.embedColor)
+          .addFields([
+            {
+              name: "API Latency",
+              value: `\`\`\`yml\n${apiState} | ${apiPing}ms\`\`\``,
+            },
+            {
+              name: "Bot Latency",
+              value: `\`\`\`yml\n${botState} | ${botPing}ms\`\`\``,
+            },
+          ])
+          .setColor(client.embedColor)
           .setFooter({
             text: `Requested by ${message.author.tag}`,
             iconURL: message.author.avatarURL(),
           }),
       ],
     });
-  }
-}
+  },
+};
