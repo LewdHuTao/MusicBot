@@ -1,0 +1,13 @@
+services:
+  musicbot:
+    container_name: musicbot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  # Adjust port if necessary
+    volumes:
+      - ./src:/app/src  # Mount your source code directory if needed
+    environment:
+      - NODE_ENV=production  # Set your environment variables if needed
+    restart: unless-stopped
