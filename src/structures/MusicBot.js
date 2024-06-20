@@ -22,6 +22,8 @@ class MusicBot extends Client {
     this.config = require("../config");
     this.settings = this.config.botSettings;
     this.embedColor = this.config.botSettings.embedColor;
+    this.commandRan = 0;
+    this.musicPlay = 0;
     this.bot = logger.createLogger("CLIENT");
     this.node = logger.createLogger("NODE")
     this.SlashCommands = new Collection();

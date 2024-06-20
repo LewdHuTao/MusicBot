@@ -26,7 +26,7 @@ module.exports = {
 
       interaction.guild.members.fetch();
       command.run(client, interaction, interaction.options);
-    //   client.commandsRan++;
+      client.commandRan++;
       return;
     }
 

@@ -52,6 +52,7 @@ module.exports = {
 
     try {
       command.run(message, args, client, prefix);
+      client.commandRan++;
     } catch (error) {
       console.error(error);
       return message.channel.send({
