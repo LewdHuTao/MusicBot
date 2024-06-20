@@ -4,6 +4,6 @@ module.exports = {
   name: "ready",
   run: async (client, message) => {
     client.manager.init(client.user.id)
-    console.log(`${client.config.bot.clientName} is now online.`)
+    client.bot.info(`${client.config.bot.clientName} is now online.`)
   },
 };
