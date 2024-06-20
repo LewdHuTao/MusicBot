@@ -2,7 +2,7 @@ const { Client, GatewayIntentBits, Collection, Routes } = require("discord.js");
 const { REST } = require("@discordjs/rest");
 const { Niizuki } = require("niizuki");
 const { readdirSync } = require("fs");
-const path = require("path");
+const logger = require("../utils/Logger");
 
 class MusicBot extends Client {
   constructor() {
@@ -22,6 +22,8 @@ class MusicBot extends Client {
     this.config = require("../config");
     this.settings = this.config.botSettings;
     this.embedColor = this.config.botSettings.embedColor;
+    this.bot = logger.createLogger("CLIENT");
+    this.node = logger.createLogger("NODE")
     this.SlashCommands = new Collection();
     this.PrefixCommands = new Collection(); 
     this.ContextCommands = new Collection(); 
@@ -34,6 +36,31 @@ class MusicBot extends Client {
       defaultSearchPlatform: "ytmsearch",
       reconnectTimeout: 600000,
       reconnectTries: 100,
+    });
+
+    // Error handler
+    process.on("unhandledRejection", async (error) => {
+      if (error.code !== 40060 || error.code !== 10008) {
+        this.bot.error(
+          `An error has been detected by system => errorType: UnhandledRejection.`
+        );
+        console.log(error);
+        this.bot.error(
+          `An error has been detected by system => errorType: UnhandledRejection.`
+        );
+      }
+    });
+
+    process.on("uncaughtException", (error) => {
+      if (error.code !== 40060 || error.code !== 10008) {
+        this.bot.error(
+          `An error has been detected by system => errorType: uncaughtException.`
+        );
+        console.log(error);
+        this.bot.error(
+          `An error has been detected by system => errorType: uncaughtException.`
+        );
+      }
     });
 
     // Load events
@@ -100,14 +127,14 @@ class MusicBot extends Client {
     }));
 
     try {
-      console.log('Started refreshing application (/) commands.');
+      this.bot.info('Started refreshing application (/) commands.');
 
       await rest.put(
         Routes.applicationCommands(this.config.bot.clientId),
         { body: slashCommands }
       );
 
-      console.log('Successfully reloaded application (/) commands.');
+      this.bot.info('Successfully reloaded application (/) commands.');
     } catch (error) {
       console.error(error);
     }
