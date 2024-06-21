@@ -15,13 +15,14 @@ class MusicBot extends Client {
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates,
+        GatewayIntentBits.MessageContent,
       ],
     });
     this.config = require("../config");
     this.settings = this.config.botSettings;
     this.embedColor = this.config.botSettings.embedColor;
+    this.owner = this.config.owner;
     this.commandRan = 0;
     this.musicPlay = 0;
     this.bot = logger.createLogger("CLIENT");

@@ -14,7 +14,7 @@ module.exports = {
         (x) => x.name == interaction.commandName
       );
       if (!command || !command.run)
-        return client.interaction.reply({
+        return interaction.reply({
           embeds: [
             new EmbedBuilder()
               .setColor(color)
@@ -22,7 +22,23 @@ module.exports = {
                 `${client.setting.crossMark} | This command are currently disabled. Please try again later.`
               ),
           ],
+          ephemeral: true,
         });
+
+      if (command.ownerOnly === true) {
+        if (interaction.user.id !== client.owner.userId) {
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setColor("Red")
+                .setDescription(
+                  `:x: | You're not the owner. Only the owner can use this command.`
+                ),
+            ],
+            ephemeral: true,
+          });
+        }
+      }
 
       interaction.guild.members.fetch();
       command.run(client, interaction, interaction.options);
@@ -43,6 +59,7 @@ module.exports = {
                 `${client.setting.crossMark} | This command are currently disabled. Please try again later.`
               ),
           ],
+          ephemeral: true,
         });
 
       interaction.guild.members.fetch();
