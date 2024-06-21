@@ -9,7 +9,7 @@ const command = new SlashCommand()
   .setCategory("Util")
   .setRun(async (client, interaction, options) => {
     interaction.reply({
-      content: `\`🟢 Connected | ⚪ Used Node | 🔴 Disconnected\``,
+      content: `\`🟢 Connected | ⚪ Active Node | 🔴 Disconnected\``,
     });
 
     const prettyBytes = (await import("pretty-bytes")).default;
