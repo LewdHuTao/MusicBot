@@ -1,5 +1,6 @@
 const SlashCommand = require("../../../structures/SlashCommand");
 const { EmbedBuilder } = require("discord.js");
+const ms = require("ms")
 
 const command = new SlashCommand()
   .setName("seek")
