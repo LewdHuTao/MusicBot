@@ -8,7 +8,7 @@ const command = new SlashCommand()
     await interaction.deferReply({ ephemeral: true });
 
     return interaction.editReply({
-      content: `https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=277062150416&scope=bot%20applications.commands`,
+      content: `[Invite me to your server now!](https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=277062150416&scope=bot%20applications.commands)`,
     });
   });
 
