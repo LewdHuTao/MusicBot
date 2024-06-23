@@ -5,7 +5,11 @@ const command = new SlashCommand()
   .setName("play")
   .setDescription("Stream music to your voice channel.")
   .addStringOption((option) =>
-    option.setName("query").setDescription("Track to search!").setRequired(true)
+    option
+      .setName("query")
+      .setDescription("Track to search!")
+      .setRequired(true)
+      .setAutocomplete(true)
   )
   .setCategory("Music")
   .setRun(async (client, interaction, options) => {
