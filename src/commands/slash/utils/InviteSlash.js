@@ -2,7 +2,7 @@ const SlashCommand = require("../../../structures/SlashCommand");
 
 const command = new SlashCommand()
   .setName("invite")
-  .setDescription("Invite me to your server..")
+  .setDescription("Invite me to your server.")
   .setCategory("Util")
   .setRun(async (client, interaction, options) => {
     await interaction.deferReply({ ephemeral: true });
