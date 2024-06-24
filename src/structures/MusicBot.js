@@ -14,9 +14,8 @@ class MusicBot extends Client {
       intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-     
         GatewayIntentBits.GuildVoiceStates,
-        
+        GatewayIntentBits.MessageContent,
       ],
     });
     this.config = require("../config");
@@ -26,10 +25,10 @@ class MusicBot extends Client {
     this.commandRan = 0;
     this.musicPlay = 0;
     this.bot = logger.createLogger("CLIENT");
-    this.node = logger.createLogger("NODE")
+    this.node = logger.createLogger("NODE");
     this.SlashCommands = new Collection();
-    this.PrefixCommands = new Collection(); 
-    this.ContextCommands = new Collection(); 
+    this.PrefixCommands = new Collection();
+    this.ContextCommands = new Collection();
 
     this.manager = new Niizuki(this, this.config.nodes, {
       send: (payload) => {
@@ -103,7 +102,9 @@ class MusicBot extends Client {
 
     // Load slash commands
     readdirSync("./commands/slash/").forEach((dir) => {
-      const slashCommandFiles = readdirSync(`./commands/slash/${dir}/`).filter((f) => f.endsWith(".js"));
+      const slashCommandFiles = readdirSync(`./commands/slash/${dir}/`).filter(
+        (f) => f.endsWith(".js")
+      );
       for (const file of slashCommandFiles) {
         const command = require(`../commands/slash/${dir}/${file}`);
         this.SlashCommands.set(command.name, command);
@@ -112,7 +113,9 @@ class MusicBot extends Client {
 
     // Load prefix commands
     readdirSync("./commands/prefix/").forEach((dir) => {
-      const prefixCommandFiles = readdirSync(`./commands/prefix/${dir}/`).filter((f) => f.endsWith(".js"));
+      const prefixCommandFiles = readdirSync(
+        `./commands/prefix/${dir}/`
+      ).filter((f) => f.endsWith(".js"));
       for (const file of prefixCommandFiles) {
         const command = require(`../commands/prefix/${dir}/${file}`);
         this.PrefixCommands.set(command.name, command);
@@ -135,23 +138,22 @@ class MusicBot extends Client {
   }
 
   async registerSlashCommands() {
-    const rest = new REST({ version: '10' }).setToken(this.config.bot.token);
-    
-    const slashCommands = this.SlashCommands.map(command => ({
+    const rest = new REST({ version: "10" }).setToken(this.config.bot.token);
+
+    const slashCommands = this.SlashCommands.map((command) => ({
       name: command.name,
       description: command.description,
-      options: command.options
+      options: command.options,
     }));
 
     try {
-      this.bot.info('Started refreshing application (/) commands.');
+      this.bot.info("Started refreshing application (/) commands.");
 
-      await rest.put(
-        Routes.applicationCommands(this.config.bot.clientId),
-        { body: slashCommands }
-      );
+      await rest.put(Routes.applicationCommands(this.config.bot.clientId), {
+        body: slashCommands,
+      });
 
-      this.bot.info('Successfully reloaded application (/) commands.');
+      this.bot.info("Successfully reloaded application (/) commands.");
     } catch (error) {
       console.error(error);
     }
