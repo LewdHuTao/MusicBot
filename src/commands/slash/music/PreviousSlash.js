@@ -70,7 +70,7 @@ const command = new SlashCommand()
         new EmbedBuilder()
           .setColor(client.embedColor)
           .setDescription(
-            `:white_check_mark: | Add previous track to the queue.`
+            `:white_check_mark: | Enqueued [\`${player.previous.info.title}\`](${player.previous.info.uri}) by \`${player.previous.info.author}\` to the queue.`
           ),
       ],
     });
