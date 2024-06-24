@@ -22,7 +22,7 @@ const command = new SlashCommand()
 
       const lavauptime = moment
         .duration(x.stats.uptime)
-        .format(" d [days], h [hours], m [minutes], s [seconds]");
+        .format(" d [days], h [hours], m [minutes]");
 
       let msg = new EmbedBuilder().setColor(client.embedColor)
         .setDescription(`\`\`\`diff\n
