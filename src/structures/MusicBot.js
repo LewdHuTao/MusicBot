@@ -14,9 +14,9 @@ class MusicBot extends Client {
       intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMembers,
+     
         GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.MessageContent,
+        
       ],
     });
     this.config = require("../config");
