@@ -24,6 +24,9 @@ class MusicBot extends Client {
     this.owner = this.config.owner;
     this.commandRan = 0;
     this.musicPlay = 0;
+    this.clientEvents = 0;
+    this.nodeEvents = 0;
+    this.commandSize = 0;
     this.bot = logger.createLogger("CLIENT");
     this.node = logger.createLogger("NODE");
     this.SlashCommands = new Collection();
@@ -70,6 +73,7 @@ class MusicBot extends Client {
       const event = require(`../events/client/${file}`);
       let eventName = file.split(".")[0];
       this.on(event.name, (...args) => event.run(this, ...args));
+      this.clientEvents++;
     });
 
     // Load autocomplete
@@ -77,6 +81,7 @@ class MusicBot extends Client {
       const event = require(`../events/autocomplete/${file}`);
       let eventName = file.split(".")[0];
       this.on(event.name, (...args) => event.run(this, ...args));
+      this.clientEvents++;
     });
 
     // Load function
@@ -84,6 +89,7 @@ class MusicBot extends Client {
       const event = require(`../events/function/${file}`);
       let eventName = file.split(".")[0];
       this.on(event.name, (...args) => event.run(this, ...args));
+      this.clientEvents++;
     });
 
     // Load node events
@@ -91,13 +97,16 @@ class MusicBot extends Client {
       const event = require(`../events/node/${file}`);
       let eventName = file.split(".")[0];
       this.manager.on(eventName, event.bind(null, this));
+      this.nodeEvents++;
     });
 
     // Load audio event
+    let audioEvents = 0;
     readdirSync("./events/audio/").forEach((file) => {
       const event = require(`../events/audio/${file}`);
       let eventName = file.split(".")[0];
       this.manager.on(eventName, event.bind(null, this));
+      this.nodeEvents++;
     });
 
     // Load slash commands
@@ -108,6 +117,7 @@ class MusicBot extends Client {
       for (const file of slashCommandFiles) {
         const command = require(`../commands/slash/${dir}/${file}`);
         this.SlashCommands.set(command.name, command);
+        this.commandSize++;
       }
     });
 
@@ -119,6 +129,7 @@ class MusicBot extends Client {
       for (const file of prefixCommandFiles) {
         const command = require(`../commands/prefix/${dir}/${file}`);
         this.PrefixCommands.set(command.name, command);
+        this.commandSize++;
       }
     });
 
@@ -128,12 +139,16 @@ class MusicBot extends Client {
     //   for (const file of contextMenuFiles) {
     //     const command = require(`../commands/context/${dir}/${file}`);
     //     this.ContextCommands.set(file.split(".")[0], command);
+    //     this.commandSize++
     //   }
     // });
   }
 
   async connect() {
     await this.registerSlashCommands(); // Register slash commands before logging in
+    this.bot.info(`Load ${this.clientEvents} Client Events`);
+    this.bot.info(`Load ${this.commandSize} Commands.`);
+    this.node.info(`Load ${this.nodeEvents} Node Events`);
     return super.login(this.config.bot.token);
   }
 
