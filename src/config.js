@@ -1,3 +1,4 @@
+const { ActivityType } = require("discord.js");
 require("dotenv").config();
 
 module.exports = {
@@ -23,10 +24,21 @@ module.exports = {
   nodes: [
     {
       name: "node1",
-      host: "localhost",
-      password: "youshallnotpass",
+      host: "node.shittybot.xyz",
+      password: "shittybot",
       port: 2333,
       secure: false,
     },
-  ]
+  ],
+
+  // Client Presence
+  presence: {
+    activities: [
+      {
+        name: "/play",
+        type: ActivityType.Listening,
+      },
+    ],
+    status: "online",
+  },
 };
