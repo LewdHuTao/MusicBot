@@ -66,7 +66,7 @@ const command = new SlashCommand()
         return interaction.editReply({
           embeds: [
             new EmbedBuilder()
-              .setColor(color)
+              .setColor(client.embedColor)
               .setDescription(`:x: | Track not found.`),
           ],
         });

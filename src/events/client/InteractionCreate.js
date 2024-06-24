@@ -17,7 +17,7 @@ module.exports = {
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setColor(color)
+              .setColor(client.embedColor)
               .setDescription(
                 `${client.setting.crossMark} | This command are currently disabled. Please try again later.`
               ),
@@ -53,7 +53,7 @@ module.exports = {
         return interaction.reply({
           embeds: [
             new EmbedBuilder()
-              .setColor(color)
+              .setColor(client.embedColor)
               .setDescription(
                 `${client.setting.crossMark} | This command are currently disabled. Please try again later.`
               ),

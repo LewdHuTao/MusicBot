@@ -86,7 +86,7 @@ module.exports = async (client, player, track) => {
         .reply({
           embeds: [
             new EmbedBuilder()
-              .setColor(color)
+              .setColor(client.embedColor)
               .setDescription(
                 `${client.e.crossMark} | There are no players in this server.`
               ),
@@ -97,7 +97,7 @@ module.exports = async (client, player, track) => {
     }
     if (!i.member.voice.channel) {
       const joinEmbed = new EmbedBuilder()
-        .setColor(color)
+        .setColor(client.embedColor)
         .setDescription(
           `${client.e.crossMark} | You need to be in a Voice Channel to use this command.`
         );
@@ -109,7 +109,7 @@ module.exports = async (client, player, track) => {
       !i.guild.members.me.voice.channel.equals(i.member.voice.channel)
     ) {
       const sameEmbed = new EmbedBuilder()
-        .setColor(color)
+        .setColor(client.embedColor)
         .setDescription(
           `${client.e.crossMark} | You need to be in a same Voice Channel to use this command.`
         );

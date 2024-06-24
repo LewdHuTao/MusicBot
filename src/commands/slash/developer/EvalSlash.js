@@ -27,7 +27,7 @@ const command = new SlashCommand()
         txt.includes("process.env.token")
       ) {
         const no = new EmbedBuilder()
-          .setColor(color)
+          .setColor(client.embedColor)
           .setDescription(
             `${client.e.crossMark} | Uhoh this interaction is contained my token`
           );

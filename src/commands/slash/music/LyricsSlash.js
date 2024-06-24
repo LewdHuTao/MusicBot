@@ -130,7 +130,7 @@ const command = new SlashCommand()
         currentPage++;
         if (currentPage < pages.length) {
           const newEmbed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(client.embedColor)
             .setTitle(`${trackName} - ${trackArtist}`)
             .setDescription(pages[currentPage])
             .setFooter({
@@ -160,7 +160,7 @@ const command = new SlashCommand()
         currentPage--;
         if (currentPage >= 0) {
           const newEmbed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(client.embedColor)
             .setTitle(`${trackName} - ${trackArtist}`)
             .setDescription(pages[currentPage])
             .setFooter({
