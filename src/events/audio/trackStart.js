@@ -114,7 +114,7 @@ module.exports = async (client, player, track) => {
         );
       return i.reply({ embeds: [sameEmbed], ephemeral: true }).catch(() => {});
     }
-    if (i.customId === "pausebut_interaction") {
+    if (i.customId === "pause_interaction") {
       if (player.paused === false) {
         but1.setEmoji("⏸️");
         message.edit({
