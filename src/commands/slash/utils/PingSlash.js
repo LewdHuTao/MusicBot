@@ -3,23 +3,32 @@ const { EmbedBuilder } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("ping")
-  .setDescription("Ping-Pong.")
+  .setDescription("Check the bot latency.")
   .setCategory("Util")
   .setRun(async (client, interaction, options) => {
     await interaction.deferReply({ ephemeral: true });
+
+    let msg = await interaction.followUp({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(client.embedColor)
+          .setDescription("🏓 | Fetching ping..."),
+      ],
+      fetchReply: true,
+    });
 
     let zap = "⚡";
     let green = "🟢";
     let red = "🔴";
     let yellow = "🟡";
 
-    var botState = zap;
-    var apiState = zap;
-
     let apiPing = client.ws.ping;
     let botPing = Math.floor(
-      new Date().getTime() - interaction.createdTimestamp
+      msg.createdTimestamp - interaction.createdTimestamp
     );
+
+    let botState = zap;
+    let apiState = zap;
 
     if (apiPing >= 40 && apiPing < 200) {
       apiState = green;
@@ -37,7 +46,7 @@ const command = new SlashCommand()
       botState = red;
     }
 
-    return interaction.editReply({
+    await interaction.editReply({
       embeds: [
         new EmbedBuilder()
           .setTitle("🏓 | Pong!")
