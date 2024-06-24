@@ -13,6 +13,48 @@ module.exports = {
     if (interaction.isButton) {
       const player = client.manager.players.get(interaction.guild.id);
 
+      if (!player) {
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(client.embedColor)
+              .setDescription(`:x: | The queue is empty.`),
+          ],
+          ephemeral: true,
+        });
+      }
+  
+      if (!interaction.member.voice.channel) {
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor("Red")
+              .setDescription(
+                `:x: | You need to be in a voice channel to use this command.`
+              ),
+          ],
+          ephemeral: true,
+        });
+      }
+  
+      if (
+        interaction.guild.members.me.voice.channel &&
+        !interaction.guild.members.me.voice.channel.equals(
+          interaction.member.voice.channel
+        )
+      ) {
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor("Red")
+              .setDescription(
+                `:x: | You need to be in the same voice channel as the bot to use this command.`
+              ),
+          ],
+          ephemeral: true,
+        });
+      }
+
       let buttonId = interaction.customId;
 
       if (buttonId === "previous_interaction") {
