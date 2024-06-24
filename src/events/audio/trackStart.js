@@ -70,7 +70,7 @@ module.exports = async (client, player, track) => {
     .get(player.textChannel)
     ?.send({ files: [attachment], components: [row] });
 
-  client.node.info(`A player has been created in guild: ${player.guildId}`);
+  client.node.info(`Track has been started playing [${track.info.title}] in Player: ${player.guildId}`);
   client.musicPlay++;
   PlayerHandler.nowPlayingMessage = message;
 
