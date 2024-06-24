@@ -1,16 +1,25 @@
-const { EmbedBuilder, AttachmentBuilder, ChannelType } = require("discord.js");
-const PlayerHandler = require("../../structures/PlayerHandler");
+const { EmbedBuilder } = require("discord.js");
 
 /**
- *
  * @param {import("../../structures/MusicBot")} client
- * @param {import("discord.js").Interaction}interaction
+ * @param {import("discord.js").Interaction} interaction
  */
 
 module.exports = {
   name: "interactionCreate",
   run: async (client, interaction) => {
-    if (interaction.isButton) {
+    if (interaction.isButton()) {
+      const buttonIds = [
+        "previous_interaction",
+        "pause_interaction",
+        "skip_interaction",
+        "stop_interaction"
+      ];
+
+      if (!buttonIds.includes(interaction.customId)) {
+        return;
+      }
+
       const player = client.manager.players.get(interaction.guild.id);
 
       if (!player) {
@@ -23,7 +32,7 @@ module.exports = {
           ephemeral: true,
         });
       }
-  
+
       if (!interaction.member.voice.channel) {
         return interaction.reply({
           embeds: [
@@ -36,7 +45,7 @@ module.exports = {
           ephemeral: true,
         });
       }
-  
+
       if (
         interaction.guild.members.me.voice.channel &&
         !interaction.guild.members.me.voice.channel.equals(
@@ -55,7 +64,7 @@ module.exports = {
         });
       }
 
-      let buttonId = interaction.customId;
+      const buttonId = interaction.customId;
 
       if (buttonId === "previous_interaction") {
         await player.queue.add(player.previous);
@@ -99,11 +108,12 @@ module.exports = {
             new EmbedBuilder()
               .setColor(client.embedColor)
               .setDescription(
-                `:white_check_mark: | ${interaction.member.user} used the button to skipped [\`${songTitle}\`](${songUrl}).`
+                `:white_check_mark: | ${interaction.member.user} used the button to skip [\`${songTitle}\`](${songUrl}).`
               ),
           ],
         });
       }
+
       if (buttonId === "stop_interaction") {
         await player.disconnect();
 

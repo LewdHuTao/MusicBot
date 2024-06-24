@@ -4,6 +4,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
+  EmbedBuilder,
 } = require("discord.js");
 const path = require("path");
 const PlayerHandler = require("../../structures/PlayerHandler");
