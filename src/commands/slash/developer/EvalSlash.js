@@ -29,7 +29,7 @@ const command = new SlashCommand()
         const no = new EmbedBuilder()
           .setColor(client.embedColor)
           .setDescription(
-            `${client.e.crossMark} | Uhoh this interaction is contained my token`
+            `:x: | Uhoh this interaction is contained my token`
           );
         return interaction.editReply({
           embeds: [no],

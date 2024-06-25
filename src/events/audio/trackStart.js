@@ -88,7 +88,7 @@ module.exports = async (client, player, track) => {
             new EmbedBuilder()
               .setColor(client.embedColor)
               .setDescription(
-                `${client.e.crossMark} | There are no players in this server.`
+                `:x: | There are no players in this server.`
               ),
           ],
           ephemeral: true,
@@ -99,7 +99,7 @@ module.exports = async (client, player, track) => {
       const joinEmbed = new EmbedBuilder()
         .setColor(client.embedColor)
         .setDescription(
-          `${client.e.crossMark} | You need to be in a Voice Channel to use this command.`
+          `:x: | You need to be in a Voice Channel to use this command.`
         );
       return i.reply({ embeds: [joinEmbed], ephemeral: true }).catch(() => {});
     }
@@ -111,7 +111,7 @@ module.exports = async (client, player, track) => {
       const sameEmbed = new EmbedBuilder()
         .setColor(client.embedColor)
         .setDescription(
-          `${client.e.crossMark} | You need to be in a same Voice Channel to use this command.`
+          `:x: | You need to be in a same Voice Channel to use this command.`
         );
       return i.reply({ embeds: [sameEmbed], ephemeral: true }).catch(() => {});
     }

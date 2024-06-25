@@ -25,7 +25,7 @@ module.exports = {
         const no = new EmbedBuilder()
           .setColor(client.embedColor)
           .setDescription(
-            `${client.e.crossMark} | Uhoh this interaction contains my token`
+            `:x: | Uhoh this interaction contains my token`
           );
         return message.reply({
           embeds: [no],
