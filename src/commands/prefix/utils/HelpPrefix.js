@@ -87,20 +87,20 @@ module.exports = {
     const msg = await message.reply({
       embeds: [overviewEmbed],
       components: [row],
+      fetchReply: true,
     });
 
-    const filter = (i) =>
-      i.customId === "help_menu" && i.user.id === message.author.id;
+    const filter = (i) => i.customId === "help_menu" && i.user.id === message.author.id;
     const collector = msg.createMessageComponentCollector({
       filter,
-      time: 60000,
+      time: 60000, 
     });
 
     collector.on("collect", async (i) => {
       const category = i.values[0];
 
       if (category === "overview") {
-        await i.update({ embeds: [overviewEmbed], components: [row] });
+        return msg.edit({ embeds: [overviewEmbed], components: [row] }).catch(() => {});
       } else {
         const commands = categories[category]
           .map((cmd) => `\`${cmd.name}\` - ${cmd.description}`)
@@ -115,13 +115,14 @@ module.exports = {
           .setDescription(commands)
           .setColor(client.embedColor);
 
-        await i.update({ embeds: [categoryEmbed], components: [row] });
+        return msg.edit({ embeds: [categoryEmbed], components: [row] }).catch(() => {});
       }
     });
 
-    collector.on("end", (collected) => {
-      if (collected.size === 0) {
-        msg.edit({ components: [] });
+    collector.on("end", (collected, reason) => {
+      if (reason === 'time') {
+        const disabledRow = new ActionRowBuilder().addComponents(selectMenu.setDisabled(true));
+        msg.edit({ components: [disabledRow] });
       }
     });
   },

@@ -1,4 +1,3 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
 const {
   ActionRowBuilder,
   StringSelectMenuBuilder,
@@ -96,13 +95,13 @@ const command = new SlashCommand()
       i.customId === "help_menu" && i.user.id === interaction.user.id;
     const collector = interaction.channel.createMessageComponentCollector({
       filter,
+      time: 60000,
     });
 
     collector.on("collect", async (i) => {
       const category = i.values[0];
-
       if (category === "overview") {
-        await i.update({ embeds: [overviewEmbed], components: [row] });
+        return i.editReply({ embeds: [overviewEmbed], components: [row] }).catch(() => {});
       } else {
         const commands = categories[category]
           .map((cmd) => `\`${cmd.name}\` - ${cmd.description}`)
@@ -117,7 +116,14 @@ const command = new SlashCommand()
           .setDescription(commands)
           .setColor(client.embedColor);
 
-        await i.update({ embeds: [categoryEmbed], components: [row] });
+        return i.editReply({ embeds: [categoryEmbed], components: [row] }).catch(() => {});
+      }
+    });
+
+    collector.on("end", (collected, reason) => {
+      if (reason === 'time') {
+        const disabledRow = new ActionRowBuilder().addComponents(selectMenu.setDisabled(true));
+        return interaction.editReply({ components: [disabledRow] });
       }
     });
   });
