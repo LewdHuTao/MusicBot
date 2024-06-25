@@ -100,8 +100,11 @@ const command = new SlashCommand()
 
     collector.on("collect", async (i) => {
       const category = i.values[0];
+
       if (category === "overview") {
-        return i.editReply({ embeds: [overviewEmbed], components: [row] }).catch(() => {});
+        await i.update({ embeds: [overviewEmbed], components: [row] }).catch((error) => {
+          console.error('Failed to update interaction:', error);
+        });
       } else {
         const commands = categories[category]
           .map((cmd) => `\`${cmd.name}\` - ${cmd.description}`)
@@ -116,14 +119,18 @@ const command = new SlashCommand()
           .setDescription(commands)
           .setColor(client.embedColor);
 
-        return i.editReply({ embeds: [categoryEmbed], components: [row] }).catch(() => {});
+        await i.update({ embeds: [categoryEmbed], components: [row] }).catch((error) => {
+          console.error('Failed to update interaction:', error);
+        });
       }
     });
 
-    collector.on("end", (collected, reason) => {
+    collector.on("end", async (collected, reason) => {
       if (reason === 'time') {
         const disabledRow = new ActionRowBuilder().addComponents(selectMenu.setDisabled(true));
-        return interaction.editReply({ components: [disabledRow] });
+        await interaction.editReply({ components: [disabledRow] }).catch((error) => {
+          console.error('Failed to disable menu:', error);
+        });
       }
     });
   });

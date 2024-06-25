@@ -100,7 +100,9 @@ module.exports = {
       const category = i.values[0];
 
       if (category === "overview") {
-        return msg.edit({ embeds: [overviewEmbed], components: [row] }).catch(() => {});
+        await i.update({ embeds: [overviewEmbed], components: [row] }).catch((error) => {
+          console.error('Failed to update interaction:', error);
+        });
       } else {
         const commands = categories[category]
           .map((cmd) => `\`${cmd.name}\` - ${cmd.description}`)
@@ -115,14 +117,18 @@ module.exports = {
           .setDescription(commands)
           .setColor(client.embedColor);
 
-        return msg.edit({ embeds: [categoryEmbed], components: [row] }).catch(() => {});
+        await i.update({ embeds: [categoryEmbed], components: [row] }).catch((error) => {
+          console.error('Failed to update interaction:', error);
+        });
       }
     });
 
     collector.on("end", (collected, reason) => {
       if (reason === 'time') {
         const disabledRow = new ActionRowBuilder().addComponents(selectMenu.setDisabled(true));
-        msg.edit({ components: [disabledRow] });
+        msg.edit({ components: [disabledRow] }).catch((error) => {
+          console.error('Failed to disable menu:', error);
+        });
       }
     });
   },
