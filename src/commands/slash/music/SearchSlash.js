@@ -20,7 +20,7 @@ const command = new SlashCommand()
   .setCategory("Music")
   .setRun(async (client, interaction, options) => {
     const query = interaction.options.getString("query");
-    const pms = (await import("pretty-ms")).default
+    const pms = (await import("pretty-ms")).default;
     let player = client.manager.players.get(interaction.guild.id);
 
     if (!interaction.member.voice.channel) {
@@ -87,9 +87,11 @@ const command = new SlashCommand()
           currentTracks
             .map(
               (track, index) =>
-                `\`${start + index + 1}\` [${track.info.title}](${
-                  track.info.uri
-                }) - \`${track.info.author}\``
+                `\`${start + index + 1}.\` \`(${pms(track.info.length, {
+                  secondsDecimalDigits: 0,
+                })})\` [${track.info.title}](${track.info.uri}) - \`${
+                  track.info.author
+                }\``
             )
             .join("\n")
         )
@@ -106,12 +108,12 @@ const command = new SlashCommand()
     const row = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId("prev")
-        .setLabel("Previous")
+        .setEmoji("◀️")
         .setStyle(ButtonStyle.Primary)
         .setDisabled(currentIndex === 0),
       new ButtonBuilder()
         .setCustomId("next")
-        .setLabel("Next")
+        .setEmoji("▶️")
         .setStyle(ButtonStyle.Primary)
         .setDisabled(tracks.length <= 5)
     );
@@ -195,12 +197,12 @@ const command = new SlashCommand()
           new ActionRowBuilder().addComponents(
             new ButtonBuilder()
               .setCustomId("prev")
-              .setLabel("Previous")
+              .setEmoji("◀️")
               .setStyle(ButtonStyle.Primary)
               .setDisabled(currentIndex === 0),
             new ButtonBuilder()
               .setCustomId("next")
-              .setLabel("Next")
+              .setEmoji("▶️")
               .setStyle(ButtonStyle.Primary)
               .setDisabled(currentIndex + 5 >= tracks.length)
           ),
