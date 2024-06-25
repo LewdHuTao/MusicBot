@@ -1,10 +1,7 @@
-const {
-  EmbedBuilder,
-  ButtonBuilder,
-  ButtonStyle,
-  ActionRowBuilder,
-} = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const os = require("os");
+const si = require("systeminformation");
+const mongoose = require("mongoose");
 const moment = require("moment");
 require("moment-duration-format");
 
@@ -18,129 +15,85 @@ module.exports = {
   aliases: ["status", "info"],
 
   run: async (message, args, client, prefix) => {
-    const but = new ButtonBuilder()
-      .setEmoji("◀️")
-      .setCustomId("prev_interaction")
-      .setStyle(ButtonStyle.Primary);
-    const but1 = new ButtonBuilder()
-      .setEmoji("▶️")
-      .setCustomId("next_interaction")
-      .setStyle(ButtonStyle.Primary);
-
-    const row = new ActionRowBuilder().addComponents([but, but1]);
-    const guild = client.guilds.cache.size;
-    const user = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
-    const botver = require("../../../package.json").version;
-    const mem = `${(os.freemem() / 1024 / 1024).toFixed(2)}mb/${(
-      os.totalmem() /
-      1024 /
-      1024
-    ).toFixed(2)}mb`;
-    const botuptime = moment
+    const duration = moment
       .duration(process.uptime() * 1000)
       .format(" D [days], H [hours], m [minutes]");
-    const sysuptime = moment
+    const cpu = await si.cpu();
+    const uptime = moment
       .duration(os.uptime() * 1000)
       .format(" D [days], H [hours], m [minutes]");
+    const start = Date.now();
 
-    const embed = new EmbedBuilder()
-      .setColor(client.embedColor)
-      .setAuthor({
-        name: `${client.user.username} Status`,
-        iconURL: client.user.displayAvatarURL({ forceStatic: false }),
-      })
-      .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
-      .addFields([
-        { name: "Guilds", value: `${guild}`, inline: true },
-        { name: "Users", value: `${user}`, inline: true },
-        {
-          name: "Info",
-          value: `Version: \`v${botver}\`\nRam: \`${mem}\``,
-          inline: true,
-        },
-        {
-          name: "Other",
-          value: `Bot Uptime: \`${botuptime}\`\nSystem Uptime: \`${sysuptime}\``,
-          inline: true,
-        },
-      ]);
+    await mongoose.connection.db.admin().ping();
 
-    let msg = await message.reply({
-      embeds: [embed],
-      components: [row],
-    });
+    const end = Date.now();
+    const ping1 = end - start;
 
-    let colors;
-    const player = client.manager.players.get(message.guild.id);
-    try {
-      if (player.node.name) colors = player.node.name;
-    } catch {
-      if (player === undefined) colors = "Unknown";
-    }
+    return message.reply({
+      embeds: [
+        new EmbedBuilder().setColor(client.embedColor).addFields([
+          {
+            name: `${client.user.username} Status:`,
 
-    let states;
-    try {
-      if (player.connect) states = "Connected";
-    } catch {
-      if (player === undefined) states = "Disconnected";
-    }
+            value:
+              "```ml\n• Bot Ver        :: " +
+              require("../../../package.json").version +
+              "\n• Discord.JS Ver :: " +
+              require("discord.js").version +
+              "\n• Node.JS Ver    :: " +
+              process.version +
+              "\n• Guild          :: " +
+              client.guilds.cache.size +
+              " Guild(s)\n• Channel        :: " +
+              client.channels.cache.size +
+              " Channel(s)\n• User           :: " +
+              client.guilds.cache.reduce((a, g) => a + g.memberCount, 0) +
+              " User(s) " +
+              "\n• Command Ran    :: " +
+              client.commandRan +
+              "\n• Music Played   :: " +
+              client.musicPlay +
+              "```",
+          },
+          {
+            name: "System Status:",
 
-    let all = [];
+            value:
+              "```ml\n• Platform       :: " +
+              os.type +
+              `(${os.machine()})` +
+              "\n• Processor      :: " +
+              os.cpus()[0].model +
+              "\n• Speed          :: " +
+              os.cpus()[0].speed +
+              "MHz\n• Core           :: " +
+              cpu.cores +
+              " Core(s)\n• System Uptime  :: " +
+              uptime +
+              "\n• Bot Uptime     :: " +
+              duration +
+              "\n• Bot Ping       :: " +
+              `${client.ws.ping}ms` +
+              "\n• Database Ping  :: " +
+              `${ping1}ms` +
+              "```",
+          },
+          {
+            name: "Memory Status:",
 
-    client.manager.nodeMap.forEach((node) => {
-      let color;
-
-      if (!node.disconnect) color = "-";
-      else color = "+";
-      let info = [];
-      info.push(
-        `${color} ${node.name} => ${
-          node.stats ? "Online [🟢]" : "Offline [🔴]"
-        }`
-      );
-      all.push(info.join("\n"));
-    });
-
-    const embed1 = new EmbedBuilder()
-      .setColor(client.embedColor)
-      .setAuthor({
-        name: "Node Status",
-        iconURL: client.user.displayAvatarURL({ forceStatic: false }),
-      })
-      .setThumbnail(client.user.displayAvatarURL({ forceStatic: false }))
-      .setFields([
-        {
-          name: "Audio Debug",
-          value: `\`\`\`css\n
-PlayerId :: ${message.guild.id}
-Node     :: ${colors}
-State    :: ${states}\`\`\``,
-        },
-        {
-          name: "Available Node",
-          value: `\`\`\`diff\n
-${all.join("\n")}\`\`\``,
-        },
-      ]);
-
-    const tracksCollector = msg.createMessageComponentCollector();
-    tracksCollector.on("collect", async (i) => {
-      try {
-        if (i.customId === "prev_interaction") {
-          await i.deferUpdate();
-          i.editReply({
-            embeds: [embed],
-          });
-        }
-        if (i.customId === "next_interaction") {
-          await i.deferUpdate();
-          i.editReply({
-            embeds: [embed1],
-          });
-        }
-      } catch (err) {
-        return;
-      }
+            value:
+              "```ml\n• Total Memory   :: " +
+              (os.totalmem() / 1024 / 1024).toFixed(2) +
+              "mb\n• Free Memory    :: " +
+              (os.freemem() / 1024 / 1024).toFixed(2) +
+              "mb\n• Heap Total     :: " +
+              (process.memoryUsage().heapTotal / 1024 / 1024).toFixed(2) +
+              "mb\n• Heap Usage     :: " +
+              (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) +
+              "mb```",
+          },
+        ]),
+      ],
     });
   },
 };
