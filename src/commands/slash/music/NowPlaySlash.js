@@ -82,15 +82,15 @@ const command = new SlashCommand()
       name: "card.png",
     });
 
-    let nowPlayEmbed = new EmbedBuilder()
-      .setColor(client.embedColor)
-      .setDescription(
-        `**:musical_note: | Now playing:** [${song.title}](${song.uri}) [${song.requester}]`
-      )
-      .setImage("attachment://card.png");
-
     return interaction.editReply({
-      embeds: [nowPlayEmbed],
+      embeds: [
+        new EmbedBuilder()
+          .setColor(client.embedColor)
+          .setDescription(
+            `**:musical_note: | Now playing:** [${song.title}](${song.uri}) [${song.requester}]`
+          )
+          .setImage("attachment://card.png"),
+      ],
       files: [attachment],
     });
   });
