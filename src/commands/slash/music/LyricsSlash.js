@@ -132,6 +132,7 @@ const command = new SlashCommand()
           const newEmbed = new EmbedBuilder()
             .setColor(client.embedColor)
             .setTitle(`${trackName} - ${trackArtist}`)
+            .setThumbnail(artworkUrl)
             .setDescription(pages[currentPage])
             .setFooter({
               text: `Page: ${currentPage + 1}/${pages.length}`,
@@ -162,6 +163,7 @@ const command = new SlashCommand()
           const newEmbed = new EmbedBuilder()
             .setColor(client.embedColor)
             .setTitle(`${trackName} - ${trackArtist}`)
+            .setThumbnail(artworkUrl)
             .setDescription(pages[currentPage])
             .setFooter({
               text: `Page: ${currentPage + 1}/${pages.length}`,
