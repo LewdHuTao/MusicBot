@@ -71,7 +71,9 @@ module.exports = async (client, player, track) => {
     .get(player.textChannel)
     ?.send({ files: [attachment], components: [row] });
 
-  client.node.info(`Track has been started playing [${track.info.title}] in Player: ${player.guildId}`);
+  client.node.info(
+    `Track has been started playing [${track.info.title}] in Player: ${player.guildId}`
+  );
   client.musicPlay++;
   PlayerHandler.nowPlayingMessage = message;
 
@@ -81,40 +83,6 @@ module.exports = async (client, player, track) => {
 
   collecter.on("collect", async (i) => {
     let player = client.manager.players.get(i.guild.id);
-    if (!player) {
-      return i
-        .reply({
-          embeds: [
-            new EmbedBuilder()
-              .setColor(client.embedColor)
-              .setDescription(
-                `:x: | There are no players in this server.`
-              ),
-          ],
-          ephemeral: true,
-        })
-        .catch(() => {});
-    }
-    if (!i.member.voice.channel) {
-      const joinEmbed = new EmbedBuilder()
-        .setColor(client.embedColor)
-        .setDescription(
-          `:x: | You need to be in a Voice Channel to use this command.`
-        );
-      return i.reply({ embeds: [joinEmbed], ephemeral: true }).catch(() => {});
-    }
-
-    if (
-      i.guild.members.me.voice.channel &&
-      !i.guild.members.me.voice.channel.equals(i.member.voice.channel)
-    ) {
-      const sameEmbed = new EmbedBuilder()
-        .setColor(client.embedColor)
-        .setDescription(
-          `:x: | You need to be in a same Voice Channel to use this command.`
-        );
-      return i.reply({ embeds: [sameEmbed], ephemeral: true }).catch(() => {});
-    }
     if (i.customId === "pause_interaction") {
       if (player.paused === false) {
         but1.setEmoji("⏸️");
