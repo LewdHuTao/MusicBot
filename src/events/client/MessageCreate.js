@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
-// const db = require("../util/prefixModel");
+const db = require("../../models/PrefixSchema");
 
 module.exports = {
   name: "messageCreate",
@@ -8,6 +8,12 @@ module.exports = {
     if (!message.guild) return;
 
     let prefix = client.settings.prefix;
+
+    const schema = await db.findOne({ guildId: message.guild.id });
+
+    if (schema) {
+      prefix = schema.prefix;
+    }
 
     const mention = new RegExp(`^<@!?${client.user.id}>( |)$`);
     if (message.content.match(mention)) {
