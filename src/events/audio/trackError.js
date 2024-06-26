@@ -11,5 +11,5 @@ module.exports = async (client, player, track, payload) => {
     ],
   });
   client.node.warn(`Track error [${song.title}] in Player: ${player.guildId}`);
-  await player.disconnect();
+  await player.stop();
 };
