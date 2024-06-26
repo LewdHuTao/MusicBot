@@ -46,7 +46,7 @@ module.exports = {
     }
 
     if (interaction.isContextMenuCommand()) {
-      let command = client.contextCommands.find(
+      let command = client.ContextCommands.find(
         (x) => x.command.name == interaction.commandName
       );
       if (!command || !command.run)

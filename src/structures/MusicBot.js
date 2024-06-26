@@ -101,7 +101,6 @@ class MusicBot extends Client {
     });
 
     // Load audio event
-    let audioEvents = 0;
     readdirSync("./events/audio/").forEach((file) => {
       const event = require(`../events/audio/${file}`);
       let eventName = file.split(".")[0];
@@ -134,14 +133,16 @@ class MusicBot extends Client {
     });
 
     // Load context menu commands
-    // readdirSync("./commands/context").forEach((dir) => {
-    //   const contextMenuFiles = readdirSync(`./commands/context/${dir}/`).filter((f) => f.endsWith(".js"));
-    //   for (const file of contextMenuFiles) {
-    //     const command = require(`../commands/context/${dir}/${file}`);
-    //     this.ContextCommands.set(file.split(".")[0], command);
-    //     this.commandSize++
-    //   }
-    // });
+    readdirSync("./commands/context").forEach((dir) => {
+      const contextMenuFiles = readdirSync(`./commands/context/${dir}/`).filter(
+        (f) => f.endsWith(".js")
+      );
+      for (const file of contextMenuFiles) {
+        const command = require(`../commands/context/${dir}/${file}`);
+        this.ContextCommands.set(file.split(".")[0], command);
+        this.commandSize++;
+      }
+    });
   }
 
   async connect() {
@@ -161,11 +162,20 @@ class MusicBot extends Client {
       options: command.options,
     }));
 
+    const contextCommands = this.ContextCommands.map((command) => ({
+      name: command.command.name,
+      type: command.command.type,
+      default_permission: command.command.defaultPermission,
+      options: command.command.options,
+    }));
+
+    const allCommands = [...slashCommands, ...contextCommands];
+
     try {
       this.bot.info("Started refreshing application (/) commands.");
 
       await rest.put(Routes.applicationCommands(this.config.bot.clientId), {
-        body: slashCommands,
+        body: allCommands,
       });
 
       this.bot.info("Successfully reloaded application (/) commands.");
