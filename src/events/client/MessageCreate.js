@@ -8,13 +8,6 @@ module.exports = {
     if (!message.guild) return;
 
     let prefix = client.settings.prefix;
-    
-    // Fetch prefix from database if needed
-    // const ress = await db.findOne({ Guild: message.guildId });
-    // if (ress && ress.Prefix) {
-    //   prefix = ress.Prefix;
-    //   console.log(`Custom prefix found: ${prefix}`); // Debug: Log custom prefix from database
-    // }
 
     const mention = new RegExp(`^<@!?${client.user.id}>( |)$`);
     if (message.content.match(mention)) {
@@ -35,7 +28,10 @@ module.exports = {
     if (!prefixRegex.test(message.content)) return;
 
     const [matchedPrefix] = message.content.match(prefixRegex);
-    const args = message.content.slice(matchedPrefix.length).trim().split(/ +/g);
+    const args = message.content
+      .slice(matchedPrefix.length)
+      .trim()
+      .split(/ +/g);
     const commandName = args.shift().toLowerCase();
 
     const command =
