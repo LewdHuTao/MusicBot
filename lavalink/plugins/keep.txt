@@ -1,0 +1,3 @@
+This is just a plain text to make sure plugins folder is pushed to github.
+This folder (plugins folder) is use to install Youtube-Source Plugin and LavaSrc Plugin for docker lavalink.
+Make sure you have correct permissions to make sure plugins is installed correctly.

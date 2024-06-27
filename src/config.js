@@ -21,9 +21,17 @@ module.exports = {
   },
 
   // Lavalink settings. Please use lavalink v4
+  // You can remove docker-node if youre not using docker to run the bot.
   nodes: [
     {
-      name: "node1",
+      name: "docker-node",
+      host: "docker.lavalink",
+      password: "youshallnotpass",
+      port: 2333,
+      secure: false,
+    },
+    {
+      name: "node-1",
       host: "localhost",
       password: "youshallnotpass",
       port: 2333,

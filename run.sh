@@ -8,6 +8,7 @@ help() {
     echo "Available targets:"
     echo "Run bot with Docker Compose:"
     echo "  ./run.sh start           - Build and start the bot with Docker Compose"
+    echo "  ./run.sh start-noll      - Build and start the bot without Lavalink with Docker Compose"
     echo "  ./run.sh restart         - Restart the bot using Docker Compose"
     echo "  ./run.sh stop            - Stop the Docker container (if running)"
     echo "  ./run.sh clean           - Remove Docker container and image"
@@ -22,6 +23,11 @@ build() {
 start() {
     build
     $DOCKER_COMPOSE up -d
+}
+
+start-noll() {
+    build
+    $DOCKER_COMPOSE up -d --no-deps musicbot
 }
 
 restart() {
@@ -49,6 +55,9 @@ case "$1" in
         ;;
     start)
         start
+        ;;
+    start-noll)
+        start-noll
         ;;
     restart)
         restart

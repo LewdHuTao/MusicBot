@@ -1,13 +1,33 @@
 services:
+  lavalink:
+    container_name: lavalink
+    image: ghcr.io/lavalink-devs/lavalink
+    restart: on-failure
+    hostname: docker.lavalink
+    volumes:
+      - ./lavalink/application.yml:/opt/Lavalink/application.yml
+      - ./lavalink/plugins:/opt/Lavalink/plugins
+    healthcheck:
+      test: 'curl -H "Authorization: youshallnotpass" -s http://localhost:2333/version || exit 1'
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 120s # Delay before starting checks
+    ports:
+      - "2333:2333" # Expose port for other containers or external access if needed
+
   musicbot:
     container_name: musicbot
     build:
       context: .
-      dockerfile: Dockerfile
+      target: musicbot
     ports:
-      - "3000:3000"  # Adjust port if necessary
+      - "3000:3000" # Not required
     volumes:
-      - ./src:/app/src  # Mount your source code directory if needed
+      - ./src:/app/src # Mount code directory
     environment:
-      - NODE_ENV=production  # Set your environment variables if needed
+      - NODE_ENV=production # Set your environment variables if needed
     restart: unless-stopped
+    depends_on:
+      lavalink:
+        condition: service_healthy
