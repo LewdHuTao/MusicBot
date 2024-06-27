@@ -1,7 +1,7 @@
 {
   "name": "musicbot",
-  "version": "1.0.0-alpha-1",
-  "description": "idk",
+  "version": "1.0.0",
+  "description": "Another javascript discord music bot.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
