@@ -1,4 +1,4 @@
-<div style="text-align: center; font-size: 24px;"><b>Discord Music Bot</b></div>
+<h1 align="center">Discord Music Bot</h1>
 
 ## Features
 - Built using Discord.js v14 and Lavalink v4
@@ -36,6 +36,8 @@ You can run this bot with or without Docker. For an easy setup, use the `make` c
 - Before using `./run.sh`, make sure to run `chmod +x ./run.sh`.
 
 ![NoMake Help](./assets/nomake_setup.png)
+
+#### Before you start the bot, ensure you have filled out everything in [`src/config.js`](./src/config.js).
 
 ### Command Usage (Docker)
 
