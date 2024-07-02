@@ -1,4 +1,5 @@
 const { EmbedBuilder } = require("discord.js");
+const PlayerHandler = require("../../structures/PlayerHandler");
 
 module.exports = async (client, player, track, payload) => {
   const channel = client.channels.cache.get(player.textChannel);
@@ -15,5 +16,7 @@ module.exports = async (client, player, track, payload) => {
   client.node.warn(
     `Track stucked [${song.title}] in Player: ${player.guildId}`
   );
+  const m = await PlayerHandler.nowPlayingMessage?.fetch().catch(() => {});
+  if (m && m.deletable) m.delete().catch(() => {});
   await player.stop();
 };
