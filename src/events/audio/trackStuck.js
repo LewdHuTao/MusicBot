@@ -18,8 +18,18 @@ module.exports = async (client, player, track, payload) => {
   );
   await player.stop();
 
-  setTimeout(async () => {
-    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
-    if (m && m.deletable) m.delete().catch(() => {});
-  }, 2000);
+  let retries = 3;
+  let deleteSuccess = false;
+  while (retries > 0 && !deleteSuccess) {
+    try {
+      const m = await PlayerHandler.nowPlayingMessage.fetch();
+      if (m && m.deletable) {
+        await m.delete();
+        deleteSuccess = true;
+      }
+    } catch (error) {
+      console.error(`Error deleting message: ${error.message}`);
+    }
+    retries--;
+  }
 };
