@@ -1,5 +1,9 @@
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, ApplicationCommandType, ChannelType } = require("discord.js");
+const {
+  EmbedBuilder,
+  ApplicationCommandType,
+  ChannelType,
+} = require("discord.js");
 
 module.exports = {
   command: new ContextMenuCommandBuilder()
@@ -7,7 +11,9 @@ module.exports = {
     .setType(ApplicationCommandType.Message),
 
   run: async (client, interaction, options) => {
-    const message = await interaction.channel.messages.fetch(interaction.targetId);
+    const message = await interaction.channel.messages.fetch(
+      interaction.targetId
+    );
     const query = message.content;
 
     if (!interaction.member.voice.channel) {
@@ -73,7 +79,10 @@ module.exports = {
     const { loadType, tracks, playlistInfo } = res;
 
     if (loadType === "error" || loadType === "empty") {
-      player.disconnect();
+      if (player.current === null) {
+        player.disconnect();
+        client.cmdDisconnect = true;
+      }
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()

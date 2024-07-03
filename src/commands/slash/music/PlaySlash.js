@@ -78,7 +78,10 @@ const command = new SlashCommand()
     const { loadType, tracks, playlistInfo } = res;
 
     if (loadType === "error" || loadType === "empty") {
-      player.disconnect();
+      if (player.current === null) {
+        player.disconnect();
+        client.cmdDisconnect = true;
+      }
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()

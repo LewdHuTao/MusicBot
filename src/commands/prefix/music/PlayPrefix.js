@@ -71,7 +71,10 @@ module.exports = {
     const { loadType, tracks, playlistInfo } = res;
 
     if (loadType === "error" || loadType === "empty") {
-      player.disconnect();
+      if (player.current === null) {
+        player.disconnect();
+        client.cmdDisconnect = true;
+      }
       return message.reply({
         embeds: [
           new EmbedBuilder()
