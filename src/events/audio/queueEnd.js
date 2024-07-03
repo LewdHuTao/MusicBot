@@ -5,12 +5,12 @@ module.exports = async (client, player, track) => {
   channel = client.channels.cache.get(player.textChannel);
 
   if (player.get("autoplay")) {
-    const m = await PlayerHandler.nowPlayingMessage?.fetch().catch(() => {});
+    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
     if (m && m.deletable) m.delete().catch(() => {});
 
     return player.autoplay(player);
   } else if (player.get("stay")) {
-    const m = await PlayerHandler.nowPlayingMessage?.fetch().catch(() => {});
+    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
     if (m && m.deletable) m.delete().catch(() => {});
 
     channel.send({

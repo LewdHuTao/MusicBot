@@ -69,7 +69,7 @@ module.exports = async (client, player, track) => {
 
   message = await client.channels.cache
     .get(player.textChannel)
-    ?.send({ files: [attachment], components: [row] });
+    .send({ files: [attachment], components: [row] });
 
   client.node.info(
     `Track has been started playing [${track.info.title}] in Player: ${player.guildId}`
