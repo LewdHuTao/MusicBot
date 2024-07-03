@@ -65,36 +65,47 @@ module.exports = async (client, player, track) => {
 
   const row = new ActionRowBuilder().addComponents([but, but1, but2, but3]);
 
-  let message;
+  try {
+    let message;
 
-  message = await client.channels.cache
-    .get(player.textChannel)
-    .send({ files: [attachment], components: [row] });
+    message = await client.channels.cache
+      .get(player.textChannel)
+      .send({ files: [attachment], components: [row] });
 
-  client.node.info(
-    `Track has been started playing [${track.info.title}] in Player: ${player.guildId}`
-  );
-  client.musicPlay++;
-  PlayerHandler.nowPlayingMessage = message;
+    client.node.info(
+      `Track has been started playing [${track.info.title}] in Player: ${player.guildId}`
+    );
+    client.musicPlay++;
+    PlayerHandler.nowPlayingMessage = message;
 
-  const collecter = message.createMessageComponentCollector({
-    time: track.current,
-  });
+    const collecter = message.createMessageComponentCollector({
+      time: track.current,
+    });
 
-  collecter.on("collect", async (i) => {
-    let player = client.manager.players.get(i.guild.id);
-    if (i.customId === "pause_interaction") {
-      if (player.paused === false) {
-        but1.setEmoji("⏸️");
-        message.edit({
-          components: [row],
-        });
-      } else {
-        but1.setEmoji("▶️");
-        message.edit({
-          components: [row],
-        });
+    collecter.on("collect", async (i) => {
+      let player = client.manager.players.get(i.guild.id);
+      if (i.customId === "pause_interaction") {
+        if (player.paused === false) {
+          but1.setEmoji("⏸️");
+          message.edit({
+            components: [row],
+          });
+        } else {
+          but1.setEmoji("▶️");
+          message.edit({
+            components: [row],
+          });
+        }
       }
+    });
+  } catch (error) {
+    client.node.error(
+      `Failed to send message in channel ${player.textChannel}: ${error.message}`
+    );
+    if (error.code === 50001) {
+      client.node.error("Missing Access. Please check bot permissions.");
+    } else {
+      client.bot.error(`Unexpected error: ${error.message}`);
     }
-  });
+  }
 };
