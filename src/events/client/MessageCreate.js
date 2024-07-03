@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const db = require("../../models/PrefixSchema");
 
 module.exports = {
@@ -48,24 +48,75 @@ module.exports = {
 
     if (!command) return;
 
-    if (command.owner && message.author.id !== `${client.config.ownerId}`) {
-      return;
-    }
-
-    try {
-      command.run(message, args, client, prefix);
-      client.commandRan++;
-    } catch (error) {
-      console.error(error);
-      return message.channel.send({
+    if (
+      !message.guild.members
+        .resolve(client.user)
+        .permissions.has(PermissionFlagsBits.SendMessages)
+    ) {
+      return message.author.send({
         embeds: [
           new EmbedBuilder()
             .setColor(client.embedColor)
             .setDescription(
-              `:x: | An error has occurred. Please check console for more details.`
+              `:x: | I don't have \`Send Message\` Permission to send message in this server`
             ),
         ],
       });
     }
+
+    if (
+      !message.guild.members
+        .resolve(client.user)
+        .permissions.has(PermissionFlagsBits.AttachFiles)
+    ) {
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.embedColor)
+            .setDescription(
+              `:x: | I don't have \`Attach Files\` Permission to send message in this server`
+            ),
+        ],
+      });
+    }
+
+    if (
+      !message.channel
+        .permissionsFor(client.user)
+        .has(PermissionFlagsBits.SendMessages)
+    ) {
+      return message.author.send({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.embedColor)
+            .setDescription(
+              `:x: | I don't have \`Send Message\` Permission to send message in this server`
+            ),
+        ],
+      });
+    }
+
+    if (
+      !message.channel
+        .permissionsFor(client.user)
+        .has(PermissionFlagsBits.AttachFiles)
+    ) {
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.embedColor)
+            .setDescription(
+              `:x: | I don't have \`Attach Files\` Permission to send message in this server`
+            ),
+        ],
+      });
+    }
+
+    if (command.owner && message.author.id !== `${client.config.ownerId}`) {
+      return;
+    }
+
+    command.run(message, args, client, prefix);
+    client.commandRan++;
   },
 };
