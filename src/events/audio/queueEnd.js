@@ -23,12 +23,12 @@ module.exports = async (client, player, track) => {
       ],
     });
   } else {
-    const m = await PlayerHandler.nowPlayingMessage?.fetch().catch(() => {});
+    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
     if (m && m.deletable) m.delete().catch(() => {});
-    player.destroy();
+    await player.destroy();
     client.node.warn(`A player has been destroyed in guild: ${player.guildId}`);
 
-    channel.send({
+    return channel.send({
       embeds: [
         new EmbedBuilder()
           .setColor(client.embedColor)
