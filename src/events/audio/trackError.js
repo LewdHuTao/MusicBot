@@ -12,7 +12,10 @@ module.exports = async (client, player, track, payload) => {
     ],
   });
   client.node.warn(`Track error [${song.title}] in Player: ${player.guildId}`);
-  const m = await PlayerHandler.nowPlayingMessage?.fetch().catch(() => {});
-  if (m && m.deletable) m.delete().catch(() => {});
   await player.stop();
+
+  setTimeout(async () => {
+    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
+    if (m && m.deletable) m.delete().catch(() => {});
+  }, 2000);
 };
