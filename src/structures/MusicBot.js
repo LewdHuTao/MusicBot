@@ -22,6 +22,7 @@ class MusicBot extends Client {
     this.settings = this.config.botSettings;
     this.embedColor = this.config.botSettings.embedColor;
     this.owner = this.config.owner;
+    this.cmdDisconnect = false;
     this.commandRan = 0;
     this.musicPlay = 0;
     this.clientEvents = 0;

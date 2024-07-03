@@ -53,6 +53,7 @@ const command = new SlashCommand()
     await interaction.deferReply();
 
     await player.disconnect();
+    client.cmdDisconnect = true;
 
     return interaction.editReply({
       embeds: [

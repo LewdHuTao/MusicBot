@@ -52,6 +52,7 @@ module.exports = {
     }
 
     await player.disconnect();
+    client.cmdDisconnect = true;
 
     return message.reply({
       embeds: [

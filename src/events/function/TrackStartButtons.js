@@ -116,6 +116,7 @@ module.exports = {
 
       if (buttonId === "stop_interaction") {
         await player.disconnect();
+        client.cmdDisconnect = true;
 
         return interaction.reply({
           embeds: [
