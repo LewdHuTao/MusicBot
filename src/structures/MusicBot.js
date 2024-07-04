@@ -46,6 +46,9 @@ class MusicBot extends Client {
 
     // Error handler
     process.on("unhandledRejection", async (error) => {
+      if (error.code === 50001) {
+        this.bot.error("Missing Access. Please check bot permissions.");
+      }
       if (error.code !== 40060 || error.code !== 10008) {
         this.bot.error(
           `An error has been detected by system => errorType: UnhandledRejection.`
@@ -58,6 +61,9 @@ class MusicBot extends Client {
     });
 
     process.on("uncaughtException", (error) => {
+      if (error.code === 50001) {
+        this.bot.error("Missing Access. Please check bot permissions.");
+      }
       if (error.code !== 40060 || error.code !== 10008) {
         this.bot.error(
           `An error has been detected by system => errorType: uncaughtException.`
