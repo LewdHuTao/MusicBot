@@ -59,7 +59,7 @@ module.exports = {
         new EmbedBuilder()
           .setColor(client.embedColor)
           .setDescription(
-            `:white_check_mark: | Leaves <#${message.guild.members.me.voice.channel.id}> and clears the queue.`
+            `:white_check_mark: | Leaves <#${player.voiceChannel}> and clears the queue.`
           ),
       ],
     });

@@ -60,7 +60,7 @@ const command = new SlashCommand()
         new EmbedBuilder()
           .setColor(client.embedColor)
           .setDescription(
-            `:white_check_mark: | Leaves <#${interaction.guild.members.me.voice.channel.id}> and clears the queue.`
+            `:white_check_mark: | Leaves <#${player.voiceChannel}> and clears the queue.`
           ),
       ],
     });
