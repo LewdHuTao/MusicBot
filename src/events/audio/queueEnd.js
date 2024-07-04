@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const PlayerHandler = require("../../structures/PlayerHandler");
 
-module.exports = async (client, player, track) => {
+module.exports = async (client, player) => {
   channel = client.channels.cache.get(player.textChannel);
 
   if (player.get("autoplay")) {
@@ -23,8 +23,9 @@ module.exports = async (client, player, track) => {
       ],
     });
   } else {
-    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
-    if (m && m.deletable) m.delete().catch(() => {});
+
+await PlayerHandler.deleteMessageWithRetries(PlayerHandler.nowPlayingMessage);
+
     await player.destroy();
     client.node.warn(`A player has been destroyed in guild: ${player.guildId}`);
 
