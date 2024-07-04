@@ -59,7 +59,7 @@ module.exports = {
         new EmbedBuilder()
           .setColor(client.embedColor)
           .setDescription(
-            `:white_check_mark: | Autoplay mode has been ${
+            `:white_check_mark: | 24/7 mode has been ${
               stay ? "disabled" : "enabled"
             }.`
           ),
