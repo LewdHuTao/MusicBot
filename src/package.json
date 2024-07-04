@@ -1,6 +1,6 @@
 {
   "name": "musicbot",
-  "version": "1.0.5-dev.2",
+  "version": "1.0.5-dev.3",
   "description": "Another javascript discord music bot.",
   "main": "index.js",
   "scripts": {
