@@ -12,6 +12,18 @@ module.exports = {
   run: async (message, args, client, prefix) => {
     const query = args.join(" ");
 
+    if (!query) {
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.embedColor)
+            .setDescription(
+              `:x: | The query is empty.`
+            )
+        ]
+      })
+    }
+
     if (!message.member.voice.channel) {
       return message.reply({
         embeds: [
