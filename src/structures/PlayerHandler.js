@@ -19,7 +19,7 @@ class PlayerHandler extends EventEmitter {
    * @param {User} user
    * @param {ButtonInteraction} interaction
    */
-  constructor(client, guild, channel, player, interaction) {
+  constructor(client, guild, channel, player, user, interaction) {
     super();
     /**
      * @type {MusicBot}
@@ -46,32 +46,12 @@ class PlayerHandler extends EventEmitter {
      */
     this.nowPlayingMessage = null;
   }
-
   async deleteNowPlayingMessage() {
     if (this.nowPlayingMessage) {
       await this.nowPlayingMessage.delete().catch(() => {
         undefined;
       });
       this.nowPlayingMessage = null;
-    }
-  }
-
-  static async deleteMessageWithRetries(nowPlayingMessage, retries = 3) {
-    let deleteSuccess = false;
-    while (retries > 0 && !deleteSuccess) {
-      try {
-        const m = await nowPlayingMessage.fetch();
-        if (m && m.deletable) {
-          await m.delete();
-          deleteSuccess = true;
-        }
-      } catch (error) {
-        console.log(`Error deleting message: ${error.message}`);
-      }
-      retries--;
-    }
-    if (!deleteSuccess) {
-      console.log("Failed to delete the message after multiple attempts.");
     }
   }
 }

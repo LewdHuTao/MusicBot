@@ -1,5 +1,6 @@
 const PlayerHandler = require("../../structures/PlayerHandler");
 
 module.exports = async () => {
-  PlayerHandler.deleteMessageWithRetries(PlayerHandler.nowPlayingMessage);
+  const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
+  if (m && m.deletable) m.delete().catch(() => {});
 };
