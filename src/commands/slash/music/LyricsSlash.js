@@ -44,7 +44,7 @@ const command = new SlashCommand()
 
     let songQuery =
       query ||
-      (player && player.current.info.title + player.current.info.author);
+      (player.current.info.title + player.current.info.author);
 
     if (songQuery) {
       await interaction.deferReply({ ephemeral: true });
