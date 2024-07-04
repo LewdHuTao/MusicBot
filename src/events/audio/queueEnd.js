@@ -5,13 +5,11 @@ module.exports = async (client, player) => {
   channel = client.channels.cache.get(player.textChannel);
 
   if (player.get("autoplay")) {
-    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
-    if (m && m.deletable) m.delete().catch(() => {});
+    PlayerHandler.deleteMessageWithRetries(PlayerHandler.nowPlayingMessage);
 
     return player.autoplay(player);
   } else if (player.get("stay")) {
-    const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
-    if (m && m.deletable) m.delete().catch(() => {});
+    PlayerHandler.deleteMessageWithRetries(PlayerHandler.nowPlayingMessage);
 
     channel.send({
       embeds: [
@@ -23,8 +21,7 @@ module.exports = async (client, player) => {
       ],
     });
   } else {
-
-await PlayerHandler.deleteMessageWithRetries(PlayerHandler.nowPlayingMessage);
+    PlayerHandler.deleteMessageWithRetries(PlayerHandler.nowPlayingMessage);
 
     await player.destroy();
     client.node.warn(`A player has been destroyed in guild: ${player.guildId}`);
