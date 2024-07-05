@@ -13,6 +13,7 @@ module.exports = async (client, player) => {
         ),
     ],
   });
+  const guild = await client.guilds.fetch(player.guildId);
   client.node.warn(
     `Track stucked [${song.title}] in Player: [${guild.name}] (${player.guildId})`
   );

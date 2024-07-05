@@ -11,6 +11,7 @@ module.exports = async (client, player) => {
         .setDescription(`:x: | Track error: [\`${song.title}\`](${song.uri}).`),
     ],
   });
+  const guild = await client.guilds.fetch(player.guildId);
   client.node.warn(`Track error [${song.title}] in Player: [${guild.name}] (${player.guildId})`);
   await player.stop();
 };
