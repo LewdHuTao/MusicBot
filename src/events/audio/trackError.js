@@ -11,21 +11,6 @@ module.exports = async (client, player) => {
         .setDescription(`:x: | Track error: [\`${song.title}\`](${song.uri}).`),
     ],
   });
-  client.node.warn(`Track error [${song.title}] in Player: ${player.guildId}`);
+  client.node.warn(`Track error [${song.title}] in Player: [${guild.name}] (${player.guildId})`);
   await player.stop();
-
-  let retries = 3;
-  let deleteSuccess = false;
-  while (retries > 0 && !deleteSuccess) {
-    try {
-      const m = await PlayerHandler.nowPlayingMessage.fetch();
-      if (m && m.deletable) {
-        await m.delete();
-        deleteSuccess = true;
-      }
-    } catch (error) {
-      client.bot.warn(`Error deleting message: ${error.message}`);
-    }
-    retries--;
-  }
 };

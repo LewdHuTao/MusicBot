@@ -3,10 +3,11 @@ const PlayerHandler = require("../../structures/PlayerHandler");
 
 module.exports = async (client, player) => {
   const channel = client.channels.cache.get(player.textChannel);
+  const guild = await client.guilds.fetch(player.guildId);
 
   const QueueEnd = async () => {
     await player.destroy();
-    client.node.warn(`A player has been destroyed in guild: ${player.guildId}`);
+    client.node.warn(`A player has been destroyed in guild: [${guild.name}] (${player.guildId})`);
     return channel.send({
       embeds: [
         new EmbedBuilder()
