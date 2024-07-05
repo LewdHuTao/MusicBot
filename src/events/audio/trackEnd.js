@@ -1,6 +1,6 @@
 const PlayerHandler = require("../../structures/PlayerHandler");
 
-module.exports = async () => {
+module.exports = async (client) => {
   let retries = 5;
   let deleteSuccess = false;
   while (retries > 0 && !deleteSuccess) {
