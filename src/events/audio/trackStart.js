@@ -65,12 +65,20 @@ module.exports = async (client, player, track) => {
 
   const row = new ActionRowBuilder().addComponents([but, but1, but2, but3]);
 
+  const embed = new EmbedBuilder()
+    .setColor(client.embedColor)
+    .setThumbnail(thumbnail)
+    .setDescription(`Now Playing: [${track.info.title}](${track.info.uri})`);
+
   try {
     let message;
 
     message = await client.channels.cache
       .get(player.textChannel)
-      .send({ files: [attachment], components: [row] });
+      .send({ embeds: [embed], components: [row] })
+      .catch((error) => {
+        console.error("Error sending message:", error);
+      });
 
     const guild = await client.guilds.fetch(player.guildId);
 
