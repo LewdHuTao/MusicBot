@@ -17,11 +17,18 @@ class PlayerHandler extends EventEmitter {
     }
   }
 
-  setNowPlayingMessage(guildId, message) {
-    if (this.nowPlayingMessages.has(guildId)) {
-      this.deleteNowPlayingMessage(guildId);
+  async setNowPlayingMessage(guildId, message) {
+    try {
+      if (this.nowPlayingMessages.has(guildId)) {
+        await this.deleteNowPlayingMessage(guildId);
+      }
+      this.nowPlayingMessages.set(guildId, message);
+    } catch (error) {
+      console.error(
+        `Error setting now playing message for guild ${guildId}:`,
+        error
+      );
     }
-    this.nowPlayingMessages.set(guildId, message);
   }
 }
 
