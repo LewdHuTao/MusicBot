@@ -5,7 +5,6 @@ const {
   ButtonBuilder,
   ButtonStyle,
   StringSelectMenuBuilder,
-  ChannelType,
 } = require("discord.js");
 
 const command = new SlashCommand()
@@ -160,18 +159,6 @@ const command = new SlashCommand()
             volume: 100,
             deaf: true,
           });
-
-          if (channel.type === ChannelType.GuildStageVoice) {
-            setTimeout(() => {
-              if (interaction.guild.members.me.voice.suppress === true) {
-                try {
-                  interaction.guild.members.me.voice.setSuppressed(false);
-                } catch {
-                  interaction.guild.members.me.voice.setRequestToSpeak(true);
-                }
-              }
-            }, 2000);
-          }
         }
 
         await player.queue.add(track);

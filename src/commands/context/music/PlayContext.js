@@ -1,9 +1,5 @@
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
-const {
-  EmbedBuilder,
-  ApplicationCommandType,
-  ChannelType,
-} = require("discord.js");
+const { EmbedBuilder, ApplicationCommandType } = require("discord.js");
 
 module.exports = {
   command: new ContextMenuCommandBuilder()
@@ -58,18 +54,6 @@ module.exports = {
       volume: 100,
       deaf: true,
     });
-
-    if (channel.type === ChannelType.GuildStageVoice) {
-      setTimeout(() => {
-        if (interaction.guild.members.me.voice.suppress === true) {
-          try {
-            interaction.guild.members.me.voice.setSuppressed(false);
-          } catch {
-            interaction.guild.members.me.voice.setRequestToSpeak(true);
-          }
-        }
-      }, 2000);
-    }
 
     const res = await client.manager.resolve({
       query: query,

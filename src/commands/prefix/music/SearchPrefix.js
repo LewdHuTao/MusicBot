@@ -4,7 +4,6 @@ const {
   ButtonBuilder,
   ButtonStyle,
   StringSelectMenuBuilder,
-  ChannelType,
 } = require("discord.js");
 
 module.exports = {
@@ -154,18 +153,6 @@ module.exports = {
             volume: 100,
             deaf: true,
           });
-
-          if (channel.type === ChannelType.GuildStageVoice) {
-            setTimeout(() => {
-              if (message.guild.members.me.voice.suppress === true) {
-                try {
-                  message.guild.members.me.voice.setSuppressed(false);
-                } catch {
-                  message.guild.members.me.voice.setRequestToSpeak(true);
-                }
-              }
-            }, 2000);
-          }
         }
 
         await player.queue.add(track);
