@@ -13,6 +13,16 @@ module.exports = {
   run: async (message, args, client, prefix) => {
     const txt = args.join(" ");
 
+    if (!txt) {
+      return message.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(client.embedColor)
+            .setDescription(`:x: | The query is empty.`),
+        ],
+      });
+    }
+
     try {
       const evaled = eval(txt);
       let ff = inspect(evaled, { depth: 0 });
@@ -24,9 +34,7 @@ module.exports = {
       ) {
         const no = new EmbedBuilder()
           .setColor(client.embedColor)
-          .setDescription(
-            `:x: | Uhoh this interaction contains my token`
-          );
+          .setDescription(`:x: | Uhoh this interaction contains my token`);
         return message.reply({
           embeds: [no],
         });
