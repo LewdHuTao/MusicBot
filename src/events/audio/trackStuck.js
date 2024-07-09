@@ -17,14 +17,5 @@ module.exports = async (client, player) => {
     `Track stucked [${song.title}] in Player: [${guild.name}] (${player.guildId})`
   );
 
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  const message = client.playerHandler.nowPlayingMessages.get(player.guildId);
-  if (message) {
-    if (message.deletable) {
-      await message.delete().catch(() => {});
-    }
-    client.playerHandler.deleteNowPlayingMessage(player.guildId);
-  }
   await player.stop();
 };

@@ -18,6 +18,9 @@ class PlayerHandler extends EventEmitter {
   }
 
   setNowPlayingMessage(guildId, message) {
+    if (this.nowPlayingMessages.has(guildId)) {
+      this.deleteNowPlayingMessage(guildId);
+    }
     this.nowPlayingMessages.set(guildId, message);
   }
 }
