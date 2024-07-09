@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require("discord.js");
-const PlayerHandler = require("../../structures/PlayerHandler");
 
 module.exports = async (client, player) => {
   const channel = client.channels.cache.get(player.textChannel);
@@ -7,7 +6,9 @@ module.exports = async (client, player) => {
 
   const QueueEnd = async () => {
     await player.destroy();
-    client.node.warn(`A player has been destroyed in guild: [${guild.name}] (${player.guildId})`);
+    client.node.warn(
+      `A player has been destroyed in guild: [${guild.name}] (${player.guildId})`
+    );
     return channel.send({
       embeds: [
         new EmbedBuilder()
@@ -19,8 +20,13 @@ module.exports = async (client, player) => {
     });
   };
 
-  const m = await PlayerHandler.nowPlayingMessage.fetch().catch(() => {});
-  if (m && m.deletable) m.delete().catch(() => {});
+  const message = client.playerHandler.nowPlayingMessages.get(player.guildId);
+  if (message) {
+    if (message.deletable) {
+      await message.delete().catch(() => {});
+    }
+    client.playerHandler.nowPlayingMessages.delete(player.guildId);
+  }
 
   if (!player.connected) {
     return await QueueEnd();

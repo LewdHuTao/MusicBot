@@ -32,8 +32,8 @@ module.exports = {
     },
     {
       name: "node-1",
-      host: "localhost",
-      password: "youshallnotpass",
+      host: "node.shittybot.xyz",
+      password: "shittybot",
       port: 2333,
       secure: false,
     },

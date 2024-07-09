@@ -4,10 +4,8 @@ const {
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
-  EmbedBuilder,
 } = require("discord.js");
 const path = require("path");
-const PlayerHandler = require("../../structures/PlayerHandler");
 
 module.exports = async (client, player, track) => {
   let thumbnail;
@@ -65,57 +63,46 @@ module.exports = async (client, player, track) => {
 
   const row = new ActionRowBuilder().addComponents([but, but1, but2, but3]);
 
-  const embed = new EmbedBuilder()
-    .setColor(client.embedColor)
-    .setThumbnail(thumbnail)
-    .setDescription(`Now Playing: [${track.info.title}](${track.info.uri})`);
+  let message;
+
+  message = await client.channels.cache
+    .get(player.textChannel)
+    .send({ files: [attachment], components: [row] })
+    .catch((error) => {
+      client.bot.error("Error sending message:", error);
+    });
+
+  const guild = await client.guilds.fetch(player.guildId);
+
+  client.node.info(
+    `Track has been started playing [${track.info.title}] in Player: [${guild.name}] (${player.guildId})`
+  );
+  client.musicPlay++;
 
   try {
-    let message;
-
-    message = await client.channels.cache
-      .get(player.textChannel)
-      .send({ embeds: [embed], components: [row] })
-      .catch((error) => {
-        console.error("Error sending message:", error);
-      });
-
-    const guild = await client.guilds.fetch(player.guildId);
-
-    client.node.info(
-      `Track has been started playing [${track.info.title}] in Player: [${guild.name}] (${player.guildId})`
-    );
-    client.musicPlay++;
-    PlayerHandler.nowPlayingMessage = message;
-
-    const collecter = message.createMessageComponentCollector({
-      time: track.current,
-    });
-
-    collecter.on("collect", async (i) => {
-      let player = client.manager.players.get(i.guild.id);
-      if (i.customId === "pause_interaction") {
-        if (player.paused === false) {
-          but1.setEmoji("⏸️");
-          message.edit({
-            components: [row],
-          });
-        } else {
-          but1.setEmoji("▶️");
-          message.edit({
-            components: [row],
-          });
-        }
-      }
-    });
+    client.playerHandler.setNowPlayingMessage(player.guildId, message);
   } catch (error) {
-    client.node.error(
-      `Failed to send message in channel ${player.textChannel}: ${error.message}`
-    );
-    if (error.code === 50001) {
-      client.node.error("Missing Access. Please check bot permissions.");
-    } else {
-      client.bot.error(`Unexpected error: ${error.message}`);
-    }
+    client.bot.error("Failed to set trackStart message:", error);
   }
+
+  const collecter = message.createMessageComponentCollector({
+    time: track.current,
+  });
+
+  collecter.on("collect", async (i) => {
+    let player = client.manager.players.get(i.guild.id);
+    if (i.customId === "pause_interaction") {
+      if (player.paused === false) {
+        but1.setEmoji("⏸️");
+        message.edit({
+          components: [row],
+        });
+      } else {
+        but1.setEmoji("▶️");
+        message.edit({
+          components: [row],
+        });
+      }
+    }
+  });
 };
