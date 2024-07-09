@@ -14,7 +14,6 @@ module.exports = async (client, player) => {
   client.node.warn(
     `Track error [${song.title}] in Player: [${guild.name}] (${player.guildId})`
   );
-  await player.stop();
 
   console.log(client.playerHandler.nowPlayingMessages.get(player.guildId));
   const message = client.playerHandler.nowPlayingMessages.get(player.guildId);
@@ -24,4 +23,6 @@ module.exports = async (client, player) => {
     }
     client.playerHandler.nowPlayingMessages.delete(player.guildId);
   }
+
+  await player.stop();
 };
