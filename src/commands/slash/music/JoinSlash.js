@@ -19,57 +19,47 @@ const command = new SlashCommand()
       });
     }
 
-    if (
-      interaction.guild.members.me.voice.channel &&
-      !interaction.guild.members.me.voice.channel.equals(
-        interaction.member.voice.channel
-      )
-    ) {
-      return interaction.reply({
-        embeds: [
-          new EmbedBuilder()
-            .setColor("Red")
-            .setDescription(
-              `:x: | You need to be in the same voice channel as the bot to use this command.`
-            ),
-        ],
-        ephemeral: true,
-      });
-    }
-
     await interaction.deferReply();
 
     const { channel } = interaction.member.voice;
 
-      await client.manager.createConnection({
-        guildId: interaction.guild.id,
-        textChannel: interaction.channel.id,
-        voiceChannel: channel.id,
-        volume: 100,
-        deaf: true,
-      });
-
-      if (channel.type === ChannelType.GuildStageVoice) {
-        setTimeout(() => {
-          if (interaction.guild.members.me.voice.suppress == true) {
-            try {
-              interaction.guild.members.me.voice.setSuppressed(false);
-            } catch (e) {
-              interaction.guild.members.me.voice.setRequestToSpeak(true);
-            }
-          }
-        }, 2000);
-      }
-
+    if (channel.type === ChannelType.GuildStageVoice) {
       return interaction.editReply({
         embeds: [
           new EmbedBuilder()
-            .setColor(client.embedColor)
+            .setColor("Red")
             .setDescription(
-              `:white_check_mark: | Joined <#${channel.id}>.`
+              ":x: | I can't join stage channel. Please use play command to play music in stage."
             ),
         ],
       });
+    }
+
+    if (interaction.guild.members.me.voice.channel) {
+      return interaction.editReply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor("Red")
+            .setDescription(`:x: | I'm already in <#${client.manager.players.get(interaction.guild.id).voiceChannel}>.`),
+        ],
+      });
+    }
+
+    await client.manager.createConnection({
+      guildId: interaction.guild.id,
+      textChannel: interaction.channel.id,
+      voiceChannel: channel.id,
+      volume: 100,
+      deaf: true,
+    });
+
+    return interaction.editReply({
+      embeds: [
+        new EmbedBuilder()
+          .setColor(client.embedColor)
+          .setDescription(`:white_check_mark: | Joined <#${channel.id}>.`),
+      ],
+    });
   });
 
 module.exports = command;
