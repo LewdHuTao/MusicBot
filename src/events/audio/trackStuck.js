@@ -18,6 +18,7 @@ module.exports = async (client, player) => {
   );
   await player.stop();
 
+  console.log(client.playerHandler.nowPlayingMessages.get(player.guildId));
   const message = client.playerHandler.nowPlayingMessages.get(player.guildId);
   if (message) {
     if (message.deletable) {
