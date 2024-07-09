@@ -9,7 +9,7 @@ module.exports = {
 
   run: async (message, args, client, prefix) => {
     return message.reply({
-      content: `[Invite me to your server now!](https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=277062150416&scope=bot%20applications.commands)`,
+      content: `[Invite me to your server now!](https://discord.com/oauth2/authorize?client_id=${client.user.id}&permissions=281357117712&scope=bot%20applications.commands)`,
     });
   },
 };
