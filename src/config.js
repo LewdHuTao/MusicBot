@@ -11,6 +11,7 @@ module.exports = {
 
   owner: {
     userId: process.env.userId || "", // Owner userId for developer command
+    updateChecker: true, // Check for latest update. set to false if you dont want to check for latest update
   },
 
   botSettings: {

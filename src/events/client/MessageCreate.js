@@ -1,5 +1,6 @@
 const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const db = require("../../models/PrefixSchema");
+const { UpdateChecker } = require("../../structures/UpdateChecker");
 
 module.exports = {
   name: "messageCreate",
@@ -112,7 +113,11 @@ module.exports = {
       });
     }
 
-    if (command.owner && message.author.id !== `${client.config.ownerId}`) {
+    if (message.author.id === client.config.ownerId) {
+      UpdateChecker(message);
+    }
+
+    if (command.owner && message.author.id !== client.config.ownerId) {
       return;
     }
 

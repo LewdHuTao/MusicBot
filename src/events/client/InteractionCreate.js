@@ -1,4 +1,5 @@
 const { EmbedBuilder, PermissionFlagsBits } = require("discord.js");
+const { UpdateChecker } = require("../../structures/UpdateChecker");
 
 /**
  *
@@ -103,6 +104,10 @@ module.exports = {
           ],
           ephemeral: true,
         });
+
+      if (interaction.user.id === client.owner.userId) {
+        UpdateChecker(interaction);
+      }
 
       if (command.ownerOnly === true) {
         if (interaction.user.id !== client.owner.userId) {
