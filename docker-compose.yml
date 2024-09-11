@@ -11,8 +11,8 @@ services:
       test: 'curl -H "Authorization: youshallnotpass" -s http://localhost:2333/version || exit 1'
       interval: 10s
       timeout: 10s
-      retries: 3
-      start_period: 120s # Delay before starting checks
+      retries: 5
+      start_period: 10s # Delay before starting checks
     ports:
       - "2333:2333" # Expose port for other containers or external access if needed
 
