@@ -76,6 +76,7 @@ module.exports = {
       trackStream: song.isStream,
       trackDuration: player.position,
       trackTotalDuration: song.length,
+      fontPath: path.join(__dirname, "..", "..", "..", "fonts", "ArialUnicodeMS.ttf")
     });
     const attachment = new AttachmentBuilder(cardImage, {
       name: "card.png",

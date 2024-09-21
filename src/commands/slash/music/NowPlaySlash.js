@@ -2,6 +2,7 @@ const SlashCommand = require("../../../structures/SlashCommand");
 const path = require("path");
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const { classicCard } = require("songcard");
+const path = require("path");
 
 const command = new SlashCommand()
   .setName("nowplay")
@@ -77,6 +78,7 @@ const command = new SlashCommand()
       trackStream: song.isStream,
       trackDuration: player.position,
       trackTotalDuration: song.length,
+      fontPath: path.join(__dirname, "..", "..", "..", "fonts", "ArialUnicodeMS.ttf")
     });
     const attachment = new AttachmentBuilder(cardImage, {
       name: "card.png",
