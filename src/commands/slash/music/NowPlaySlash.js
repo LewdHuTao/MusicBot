@@ -2,7 +2,6 @@ const SlashCommand = require("../../../structures/SlashCommand");
 const path = require("path");
 const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
 const { classicCard } = require("songcard");
-const path = require("path");
 
 const command = new SlashCommand()
   .setName("nowplay")
