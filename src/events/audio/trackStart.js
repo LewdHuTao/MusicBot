@@ -34,6 +34,7 @@ module.exports = async (client, player, track) => {
     songArtist: track.info.author,
     streamProvider: track.info.sourceName,
     trackRequester: username,
+    fontPath: path.join(__dirname, "..", "..", "fonts", "ArialUnicodeMS.ttf")
   });
 
   const attachment = new AttachmentBuilder(trackPlayCanvas, {
