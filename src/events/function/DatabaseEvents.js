@@ -20,7 +20,7 @@ module.exports = {
     });
     mongoose.connection.on("disconnected", () => {
       client.bot.warn(
-        "Database connection disconnecte. MongoDB-01 is disconnected."
+        "Database connection disconnected. MongoDB-01 is disconnected."
       );
     });
   },
