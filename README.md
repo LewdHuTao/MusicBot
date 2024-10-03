@@ -27,6 +27,9 @@ Note: If you use Lavalink Docker, LavaSrc and Youtube-Source Plugins are already
 
 You can run this bot with or without Docker. For an easy setup, use the `make` command. If `make` is not available, use `run.sh`. Ensure Docker is installed on your machine to use the bot with Docker.
 
+Looking for a more involved guide on how to install this bot? Use the [installation guide](https://phonic.lol).
+
+
 ### Using Make
 
 ![Make help](./assets/make_setup.png)
