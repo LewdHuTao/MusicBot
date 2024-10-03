@@ -13,7 +13,6 @@ module.exports = {
         "previous_interaction",
         "pause_interaction",
         "skip_interaction",
-        "loop_interaction",
         "shuffle_interaction",
         "stop_interaction"
       ];
