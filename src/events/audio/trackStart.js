@@ -41,28 +41,35 @@ module.exports = async (client, player, track) => {
     name: "trackPlayCanvas.png",
   });
 
-  const but = new ButtonBuilder()
+  const prevButton = new ButtonBuilder()
     .setCustomId("previous_interaction")
     .setStyle(ButtonStyle.Primary)
     .setDisabled(!player.previous)
     .setEmoji("⏮️");
 
-  const but1 = new ButtonBuilder()
+  const pauseButton = new ButtonBuilder()
     .setCustomId("pause_interaction")
     .setStyle(ButtonStyle.Primary)
     .setEmoji("⏸️");
 
-  const but2 = new ButtonBuilder()
+  const nextButton = new ButtonBuilder()
     .setCustomId("skip_interaction")
     .setStyle(ButtonStyle.Primary)
     .setEmoji("⏭️");
 
-  const but3 = new ButtonBuilder()
+  const shuffleButton = new ButtonBuilder()
+    .setCustomId("shuffle_interaction")
+    .setStyle(ButtonStyle.Primary)
+    .setEmoji("🔀");
+    
+  const stopButton = new ButtonBuilder()
     .setCustomId("stop_interaction")
     .setStyle(ButtonStyle.Danger)
     .setEmoji("⏹️");
 
-  const row = new ActionRowBuilder().addComponents([but, but1, but2, but3]);
+
+
+  const row = new ActionRowBuilder().addComponents([prevButton, pauseButton, nextButton, shuffleButton, stopButton]);
 
   let message;
 
@@ -94,12 +101,12 @@ module.exports = async (client, player, track) => {
     let player = client.manager.players.get(i.guild.id);
     if (i.customId === "pause_interaction") {
       if (player.paused === false) {
-        but1.setEmoji("⏸️");
+        pauseButton.setEmoji("⏸️");
         message.edit({
           components: [row],
         });
       } else {
-        but1.setEmoji("▶️");
+        pauseButton.setEmoji("▶️");
         message.edit({
           components: [row],
         });

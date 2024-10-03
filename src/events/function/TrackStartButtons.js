@@ -13,6 +13,7 @@ module.exports = {
         "previous_interaction",
         "pause_interaction",
         "skip_interaction",
+        "shuffle_interaction",
         "stop_interaction"
       ];
 
@@ -109,6 +110,19 @@ module.exports = {
               .setColor(client.embedColor)
               .setDescription(
                 `:white_check_mark: | ${interaction.member.user} used the button to skip [\`${songTitle}\`](${songUrl}).`
+              ),
+          ],
+        });
+      }
+
+      if (buttonId === "shuffle_interaction") {
+        await player.queue.shuffle();
+        return interaction.reply({
+          embeds: [
+            new EmbedBuilder()
+              .setColor(client.embedColor)
+              .setDescription(
+                `:white_check_mark: | ${interaction.member.user} shuffled the queue.`
               ),
           ],
         });
