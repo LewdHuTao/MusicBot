@@ -4,8 +4,9 @@ const {
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
+  MessageFlags,
 } = require("discord.js");
-const { find } = require("llyrics");
+const { find, isNotFoundResponse } = require("llyrics");
 
 const command = new SlashCommand()
   .setName("lyrics")
@@ -28,7 +29,7 @@ const command = new SlashCommand()
             .setColor("Red")
             .setDescription(`:x: | The queue is empty.`),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -47,20 +48,15 @@ const command = new SlashCommand()
       (player.current.info.title + player.current.info.author);
 
     if (songQuery) {
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply({ flags: MessageFlags.Ephemeral });
       try {
-        const searchOptions = {
+        const lyricsData = await find({
           song: songQuery,
-          forceSearch: true,
-        };
+          engine: 'youtube',
+          forceSearch: true
+        });
 
-        if (client.settings.geniusToken) {
-          searchOptions.geniusApiKey = client.settings.geniusToken;
-        }
-
-        const lyricsData = await find(searchOptions);
-
-        if (lyricsData && lyricsData.lyrics) {
+        if (lyricsData && !isNotFoundResponse(lyricsData)) {
           lyrics = lyricsData.lyrics;
           trackName = lyricsData.title;
           trackArtist = lyricsData.artist;

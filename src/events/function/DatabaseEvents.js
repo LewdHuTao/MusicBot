@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 module.exports = {
-  name: "ready",
+  name: "clientReady",
   run: async (client, message) => {
     mongoose.connect(client.settings.mongoUrl);
     mongoose.Promise = global.Promise;

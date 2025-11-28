@@ -1,5 +1,5 @@
 const SlashCommand = require("../../../structures/SlashCommand");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { inspect } = require("util");
 
 const command = new SlashCommand()
@@ -16,7 +16,7 @@ const command = new SlashCommand()
   .setRun(async (client, interaction, options) => {
     const txt = interaction.options.getString("code");
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     try {
       const evaled = eval(txt);

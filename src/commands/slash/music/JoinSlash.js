@@ -1,5 +1,5 @@
 const SlashCommand = require("../../../structures/SlashCommand");
-const { EmbedBuilder, ChannelType } = require("discord.js");
+const { EmbedBuilder, ChannelType, MessageFlags } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("join")
@@ -15,7 +15,7 @@ const command = new SlashCommand()
               `:x: | You need to be in a voice channel to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

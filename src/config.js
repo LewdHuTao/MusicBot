@@ -16,7 +16,6 @@ module.exports = {
 
   botSettings: {
     mongoUrl: process.env.mongoUrl || "", // Mongodb url for database
-    geniusToken: process.env.geniusToken || "", // Genius token use to fetch lyrics, you can leave it blank.
     prefix: process.env.prefix || "?", // Default prefix is set to "?" use prefix command to change
     embedColor: process.env.embedColor || "2F3136", // You can use any HEX Color but without the "#"
   },

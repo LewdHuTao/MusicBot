@@ -1,5 +1,5 @@
 const { ContextMenuCommandBuilder } = require("@discordjs/builders");
-const { EmbedBuilder, ApplicationCommandType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandType, MessageFlags } = require("discord.js");
 
 module.exports = {
   command: new ContextMenuCommandBuilder()
@@ -21,7 +21,7 @@ module.exports = {
               `:x: | You need to be in a voice channel to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -39,7 +39,7 @@ module.exports = {
               `:x: | You need to be in the same voice channel as the bot to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

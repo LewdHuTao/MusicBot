@@ -1,5 +1,5 @@
 const SlashCommand = require("../../../structures/SlashCommand");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("jump")
@@ -22,7 +22,7 @@ const command = new SlashCommand()
             .setColor(client.embedColor)
             .setDescription(`:x: | The queue is empty.`),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -35,7 +35,7 @@ const command = new SlashCommand()
               `:x: | You need to be in a voice channel to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -53,7 +53,7 @@ const command = new SlashCommand()
               `:x: | You need to be in the same voice channel as the bot to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

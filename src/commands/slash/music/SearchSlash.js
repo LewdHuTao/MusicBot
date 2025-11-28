@@ -5,6 +5,7 @@ const {
   ButtonBuilder,
   ButtonStyle,
   StringSelectMenuBuilder,
+  MessageFlags,
 } = require("discord.js");
 
 const command = new SlashCommand()
@@ -31,7 +32,7 @@ const command = new SlashCommand()
               `:x: | You need to be in a voice channel to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -49,7 +50,7 @@ const command = new SlashCommand()
               `:x: | You need to be in the same voice channel as the bot to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -69,7 +70,7 @@ const command = new SlashCommand()
             .setColor("Red")
             .setDescription(`:x: | No tracks found for query \`${query}\`.`),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

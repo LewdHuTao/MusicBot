@@ -1,5 +1,5 @@
 const SlashCommand = require("../../../structures/SlashCommand");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const { readdirSync } = require("fs");
 
 const command = new SlashCommand()
@@ -8,7 +8,7 @@ const command = new SlashCommand()
   .setCategory("Developer")
   .setOwnerOnly(true)
   .setRun(async (client, interaction, options) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     readdirSync("./commands/slash").forEach((dir) => {
       const slashCommandFiles = readdirSync(`./commands/slash/${dir}/`).filter(

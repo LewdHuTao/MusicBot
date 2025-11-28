@@ -1,5 +1,5 @@
 const SlashCommand = require("../../../structures/SlashCommand");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 const os = require("os");
 const si = require("systeminformation");
 const mongoose = require("mongoose");
@@ -11,7 +11,7 @@ const command = new SlashCommand()
   .setDescription("Get the current stats of the bot.")
   .setCategory("Util")
   .setRun(async (client, interaction, options) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const duration = moment
       .duration(process.uptime() * 1000)

@@ -2,7 +2,7 @@ const { presence } = require("../../config");
 const PlayerHandler = require("../../structures/PlayerHandler");
 
 module.exports = {
-  name: "ready",
+  name: "clientReady",
   run: async (client, message) => {
     client.manager.init(client.user.id);
     client.playerHandler = new PlayerHandler(client);

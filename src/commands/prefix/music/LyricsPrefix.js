@@ -4,7 +4,7 @@ const {
   ButtonStyle,
   ActionRowBuilder,
 } = require("discord.js");
-const { find } = require("llyrics");
+const { find, isNotFoundResponse } = require("llyrics");
 
 module.exports = {
   name: "lyrics",
@@ -45,18 +45,13 @@ module.exports = {
 
     if (songQuery) {
       try {
-        const searchOptions = {
+        const lyricsData = await find({
           song: songQuery,
-          forceSearch: true,
-        };
+          engine: 'youtube',
+          forceSearch: true
+        });
 
-        if (client.settings.geniusToken) {
-          searchOptions.geniusApiKey = client.settings.geniusToken;
-        }
-
-        const lyricsData = await find(searchOptions);
-
-        if (lyricsData && lyricsData.lyrics) {
+        if (lyricsData && !isNotFoundResponse(lyricsData)) {
           lyrics = lyricsData.lyrics;
           trackName = lyricsData.title;
           trackArtist = lyricsData.artist;

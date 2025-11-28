@@ -2,6 +2,7 @@ const {
   ActionRowBuilder,
   StringSelectMenuBuilder,
   EmbedBuilder,
+  MessageFlags,
 } = require("discord.js");
 const SlashCommand = require("../../../structures/SlashCommand");
 
@@ -19,7 +20,7 @@ const command = new SlashCommand()
   .setRun(async (client, interaction) => {
     const commandName = interaction.options.getString("command");
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const categories = {};
     client.SlashCommands.forEach((cmd) => {

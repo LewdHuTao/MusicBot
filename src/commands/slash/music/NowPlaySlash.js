@@ -1,6 +1,6 @@
 const SlashCommand = require("../../../structures/SlashCommand");
 const path = require("path");
-const { EmbedBuilder, AttachmentBuilder } = require("discord.js");
+const { EmbedBuilder, AttachmentBuilder, MessageFlags } = require("discord.js");
 const { classicCard } = require("songcard");
 
 const command = new SlashCommand()
@@ -17,7 +17,7 @@ const command = new SlashCommand()
             .setColor(client.embedColor)
             .setDescription(`:x: | The queue is empty.`),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -30,7 +30,7 @@ const command = new SlashCommand()
               `:x: | You need to be in a voice channel to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -48,11 +48,11 @@ const command = new SlashCommand()
               `:x: | You need to be in the same voice channel as the bot to use this command.`
             ),
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     let song = player.current.info;
     let thumbnail;

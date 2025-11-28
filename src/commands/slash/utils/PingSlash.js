@@ -1,12 +1,12 @@
 const SlashCommand = require("../../../structures/SlashCommand");
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, MessageFlags } = require("discord.js");
 
 const command = new SlashCommand()
   .setName("ping")
   .setDescription("Check the bot latency.")
   .setCategory("Util")
   .setRun(async (client, interaction, options) => {
-    await interaction.deferReply({ ephemeral: true });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     let msg = await interaction.followUp({
       embeds: [

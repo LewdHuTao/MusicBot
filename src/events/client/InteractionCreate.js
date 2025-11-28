@@ -27,7 +27,7 @@ module.exports = {
                 `:x: | I don't have \`Send Message\` Permission to send message in this server`
               ),
           ],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -44,7 +44,7 @@ module.exports = {
                 `:x: | I don't have \`Attach Files\` Permission to send message in this server`
               ),
           ],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -61,7 +61,7 @@ module.exports = {
                 `:x: | I don't have \`Send Message\` Permission to send message in this server`
               ),
           ],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -78,7 +78,7 @@ module.exports = {
                 `:x: | I don't have \`Attach Files\` Permission to send message in this server`
               ),
           ],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
 
@@ -102,7 +102,7 @@ module.exports = {
                 `:x: | This command is currently disabled. Please try again later.`
               ),
           ],
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
 
       if (interaction.user.id === client.owner.userId) {
@@ -119,7 +119,7 @@ module.exports = {
                   `:x: | You're not the owner. Only the owner can use this command.`
                 ),
             ],
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
         }
       }
