@@ -66,7 +66,7 @@ Looking for a more involved guide on how to install this bot? Use the [installat
 
 ### Command Usage (Without Docker)
 
-1. **make start-local** or **./run.sh start local**: Starts the bot locally on your machine without Docker Compose.
+1. **make start-local** or **./run.sh start-local**: Starts the bot locally on your machine without Docker Compose.
 
 Note: If you use a VPS and start the bot without Docker, make sure to use `pm2` to keep the bot online 24/7.
 
