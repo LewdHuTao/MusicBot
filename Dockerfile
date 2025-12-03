@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:20 AS musicbot
+FROM node:24 AS musicbot
 
 # Set the working directory to /app
 WORKDIR /app
